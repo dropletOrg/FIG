@@ -2,7 +2,7 @@ import tqdm
 import imageio
 import sys
 from typing import List, Dict
-from fig.utils import Utils
+from .utils import Utils
 
 
 class Writer:

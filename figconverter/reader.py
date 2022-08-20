@@ -1,5 +1,5 @@
 import cv2
-from fig.utils import Utils
+from .utils import Utils
 import tqdm
 import imageio
 import sys

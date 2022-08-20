@@ -15,7 +15,7 @@ class Utils(object):
         return {'fps': fps, 'frame_count': frame_count}
 
     @staticmethod
-    def create_text_overlay(cap: cv2.VideoCapture, params: Dict) -> Optional[Image.Image, Tuple]:
+    def create_text_overlay(cap: cv2.VideoCapture, params: Dict):
         text = params['text']
         if text == "":
             return

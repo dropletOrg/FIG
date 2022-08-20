@@ -1,7 +1,7 @@
 import click
 import sys
-import fig
-from fig.enum import TextOverlay
+import figconverter
+from figconverter.enum import TextOverlay
 
 
 @click.command()
@@ -16,9 +16,9 @@ from fig.enum import TextOverlay
 @click.option('-g2v', '--gif2video', default=False, is_flag=True, help='Convert a gif to video (other options are ignored)')
 def main(filename, quality, output, width, shit_optimize, keep_width, text, text_style, gif2video):
     if gif2video:
-        fig.gif2video(filename, True)
+        figconverter.gif2video(filename, True)
         return
-    fig.video2gif(filename, output, width, quality, shit_optimize, keep_width, text, text_style, True)
+    figconverter.video2gif(filename, output, width, quality, shit_optimize, keep_width, text, text_style, True)
 
 
 if __name__ == '__main__':

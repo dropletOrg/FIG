@@ -5,7 +5,7 @@ A [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) python pac
 
 You can use FIG's built-in CLI to convert videos to GIFs through the Command-Line.
 
-```terminal
+```
 Usage: fig FILENAME [OPTIONS]
 
 Options:
@@ -31,23 +31,23 @@ Options:
 Or you could use FIG as a Python package
 
 ```python
-import fig
+import figconverter
 
-fig.video2gif("myvideo.mp4")  # Convert video to GIF
-fig.gif2video("myvideo.gif")  # Convert GIF to video
+figconverter.video2gif("myvideo.mp4")  # Convert video to GIF
+figconverter.gif2video("myvideo.gif")  # Convert GIF to video
 ```
 
 ## About Us
 We are a duo of independent university students and professional programmers who love contributing to the world of [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software). Our goal is to improve our skills as developers and to make the world a better place by replacing [shitty online GIF conversion tools](https://www.onlineconverter.com/) with [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software).
 
 ## Credits
-- https://github.com/opencv/opencv-python (Special Thanks! Super Fast 💨)
-- https://github.com/pallets/click (Special Thanks! Made Our CLI Amazing 🎉)
-- https://github.com/numpy/numpy (Special Thanks! Awsome Work 👍🏻)
+- https://github.com/opencv/opencv-python (Special Thanks! Super Fast)
+- https://github.com/pallets/click (Special Thanks! Made Our CLI Amazing)
+- https://github.com/numpy/numpy (Special Thanks! Awsome Work)
 - https://github.com/LucaCappelletti94/pygifsicle
-- https://github.com/python-pillow/Pillow (Special Thanks! Great Project 🔥)
-- https://github.com/more-itertools/more-itertools (Special Thanks! Keep Up The Good Work 🤟🏻)
-- https://github.com/tqdm/tqdm (Special Thanks! Made Our CLI SOO Much Better 🙏🏻)
-- https://github.com/imageio/imageio (Special Thanks! Cheers 🍻)
-- https://github.com/python/cpython (Special Thanks! Couldn't Have Done This Without You ❤)
-- https://github.com/dropletOrg/FIG (Super Mega Special Special Thanks!!! One Of the Best [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) Projects Out There🔥❤✔)
+- https://github.com/python-pillow/Pillow (Special Thanks! Great Project)
+- https://github.com/more-itertools/more-itertools (Special Thanks! Keep Up The Good Work)
+- https://github.com/tqdm/tqdm (Special Thanks! Made Our CLI SOO Much Better)
+- https://github.com/imageio/imageio (Special Thanks! Cheers)
+- https://github.com/python/cpython (Special Thanks! Couldn't Have Done This Without You)
+- https://github.com/dropletOrg/FIG (Super Mega Special Special Thanks!!! One Of the Best [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) Projects Out There)
