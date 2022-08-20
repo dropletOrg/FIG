@@ -5,7 +5,7 @@ A [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) python pac
 
 You can use FIG's built-in CLI to convert videos to GIFs through the Command-Line.
 
-```
+```shell
 Usage: fig FILENAME [OPTIONS]
 
 Options:
@@ -37,6 +37,19 @@ figconverter.video2gif("myvideo.mp4")  # Convert video to GIF
 figconverter.gif2video("myvideo.gif")  # Convert GIF to video
 ```
 
+## Installation
+```shell
+pip install fig-converter
+```
+in order to use the -so option (or shit_optimize if you're using the package) you'll need to install gifsicle:
+
+While running the installation, on **MacOS** the setup will automatically install **gifsicle** using [Brew](https://brew.sh/).
+
+On Linux you will need to install gifsicle using apt-get as follows:
+```shell
+sudo apt-get install gifsicle
+```
+On Windows you will need to download and install the [correct port of the library](https://eternallybored.org/misc/gifsicle/) for your OS.
 ## About Us
 We are a duo of independent university students and professional programmers who love contributing to the world of [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software). Our goal is to improve our skills as developers and to make the world a better place by replacing [shitty online GIF conversion tools](https://www.onlineconverter.com/) with [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software).
 
