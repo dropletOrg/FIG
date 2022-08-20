@@ -131,3 +131,6 @@ dmypy.json
 # Gifs and videos
 *.gif
 *.mp4
+
+# .idea
+.idea/*

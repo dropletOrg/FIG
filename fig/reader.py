@@ -3,10 +3,11 @@ from fig.utils import Utils
 import tqdm
 import imageio
 import sys
+from typing import Dict
 
 
 class Reader:
-    def __init__(self, params):
+    def __init__(self, params: Dict):
         self.filename = params["filename"]
         self.params = params
         self.frames = []
@@ -18,9 +19,9 @@ class Reader:
         self.params["frame_count"] = self.frame_count
         self.params["fps"] = self.fps
 
-        self.text_overlay_image = Utils.create_text_overlay(self.cap, self.params["caption"], self.params)
+        self.text_overlay_image = Utils.create_text_overlay(self.cap, self.params)
 
-    def read_video(self):
+    def read_video(self) -> None:
         if self.params['progress_bar']:
             pbar = tqdm.tqdm(total=self.frame_count, desc='Reading and processing frames')
         while self.cap.isOpened():
@@ -39,7 +40,7 @@ class Reader:
             sys.stdout.flush()
         self.cap.release()
 
-    def read_gif(self):
+    def read_gif(self) -> None:
         with imageio.get_reader(self.filename) as reader:
             if self.params['progress_bar']:
                 pbar = tqdm.tqdm(total=reader.get_length(), desc='Reading frames')
