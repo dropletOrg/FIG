@@ -45,7 +45,7 @@ in order to use the -so option (or shit_optimize if you're using the package) yo
 
 While running the installation, on **MacOS** the setup will automatically install **gifsicle** using [Brew](https://brew.sh/).
 
-On Linux you will need to install gifsicle using apt-get as follows:
+On Linux you will need to install **gifsicle** using apt-get as follows:
 ```shell
 sudo apt-get install gifsicle
 ```
