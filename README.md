@@ -5,7 +5,7 @@ A [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) python pac
 
 You can use FIG's built-in CLI to convert videos to GIFs through the Command-Line.
 
-```shell
+```
 Usage: fig FILENAME [OPTIONS]
 
 Options:
