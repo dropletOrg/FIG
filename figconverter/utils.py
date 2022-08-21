@@ -126,5 +126,5 @@ class Utils(object):
             text_overlay_image[0].paste(frame, (0, text_overlay_image[1]))
             frame = text_overlay_image[0]
             return Utils.pil2cv2(frame)
-        frame.paste(text_overlay_image[0], (0, 0), text_overlay_image[0])
+        frame.paste(text_overlay_image, (0, 0), text_overlay_image)
         return Utils.pil2cv2(frame)
