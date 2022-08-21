@@ -28,7 +28,7 @@ Options:
 
   -v, --version                   Display the version of FIG
 ```
-Or you could use FIG as a Python package
+Or you could use FIG as a Python package.
 
 ```python
 import figconverter
@@ -56,7 +56,7 @@ We are a duo of independent university students and professional programmers who
 ## Credits
 - https://github.com/opencv/opencv-python (Special Thanks! Super Fast)
 - https://github.com/pallets/click (Special Thanks! Made Our CLI Amazing)
-- https://github.com/numpy/numpy (Special Thanks! Awsome Work)
+- https://github.com/numpy/numpy (Special Thanks! Awesome Work)
 - https://github.com/LucaCappelletti94/pygifsicle
 - https://github.com/python-pillow/Pillow (Special Thanks! Great Project)
 - https://github.com/more-itertools/more-itertools (Special Thanks! Keep Up The Good Work)
