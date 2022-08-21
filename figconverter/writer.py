@@ -5,10 +5,11 @@ from typing import List, Dict
 from .utils import Utils
 import cv2
 import os
+from multiprocessing import Queue
 
 
 class Writer:
-    def __init__(self, frames: List, params: Dict):
+    def __init__(self, frames: Queue, params: Dict):
         self.frames = frames
         self.output = params["output"]
         self.fps = params["fps"]
@@ -19,20 +20,16 @@ class Writer:
             self.output = "".join(os.path.basename(params["filename"]).split('.')[:-1])
 
     def write_gif(self) -> None:
-        i = 0
         with imageio.get_writer(f"{self.output}.gif", mode='I', fps=self.fps) as writer:
             if self.params['progress_bar']:
-                pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames')
-            while True:
-                if self.frame_count == i:
-                    break
-                if self.frames:
-                    writer.append_data(self.frames[0])
-                    self.frames.pop(0)
-                    i += 1
-                    if self.params['progress_bar']:
-                        pbar.update(1)
+                pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1)
+            for i in range(self.frame_count):
+                writer.append_data(self.frames.get())
+                if self.params['progress_bar']:
+                    pbar.update(1)
         if self.params['progress_bar']:
+            sys.stdout.write('\n')
+            sys.stdout.flush()
             pbar.close()
         Utils.shitty_compression(self.output, self.params)
 
@@ -41,22 +38,20 @@ class Writer:
             pass
 
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        size = (self.frames[0].shape[1], self.frames[0].shape[0])
+        size = self.params["resolution"]
+        print(size)
         writer = cv2.VideoWriter(f"{self.output}.mp4", fourcc, self.fps, size)
 
-        i = 0
         if self.params['progress_bar']:
-            pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames')
-        while True:
-            if self.frame_count == i:
-                break
-            if self.frames:
-                frame = self.frames[0]
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                writer.write(frame)
-                self.frames.pop(0)
-                i += 1
+            pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1)
+        for i in range(self.frame_count):
+            frame = self.frames.get()
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            writer.write(frame)
+            if self.params['progress_bar']:
                 pbar.update(1)
         if self.params['progress_bar']:
+            sys.stdout.write('\n')
+            sys.stdout.flush()
             pbar.close()
         writer.release()

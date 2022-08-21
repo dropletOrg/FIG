@@ -1,5 +1,4 @@
-from importlib.metadata import entry_points
-from setuptools import setup, find_packages
+from setuptools import setup
 from pathlib import Path
 
 this_directory = Path(__file__).parent
