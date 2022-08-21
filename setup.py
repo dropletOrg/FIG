@@ -10,7 +10,7 @@ setup(
     description='A python package and CLI to turn videos into GIFs and vice-versa.',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version='1.0.9',
+    version='1.0-beta',
     license='MIT',
     author="blahberi, kamoodi",
     author_email='droplet.org@gmail.com',
