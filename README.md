@@ -63,4 +63,4 @@ We are a duo of independent university students and professional programmers who
 - https://github.com/tqdm/tqdm (Special Thanks! Made Our CLI SOO Much Better)
 - https://github.com/imageio/imageio (Special Thanks! Cheers)
 - https://github.com/python/cpython (Special Thanks! Couldn't Have Done This Without You)
-- https://github.com/dropletOrg/FIG (Super Mega Special Special Thanks!!! One Of the Best [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) Projects Out There)
+- https://github.com/dropletOrg/FIG (Super Mega Special Special Thanks!!! One Of The Best [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) Projects Out There)
