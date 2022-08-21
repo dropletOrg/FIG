@@ -2,6 +2,15 @@ from .reader import Reader
 from .writer import Writer
 from multiprocessing import Process
 from typing import Optional
+import os
+
+
+class FileTypeError(Exception):
+    pass
+
+
+class FileDoesNotExistError(Exception):
+    pass
 
 
 def video2gif(
@@ -23,6 +32,8 @@ def video2gif(
               "text_style": text_style,
               "progress_bar": progress_bar
               }
+    if not os.path.exists(filename):
+        raise FileDoesNotExistError(f"File '{filename}' does not exist.")
     reader = Reader(params)
     params = reader.params
     writer = Writer(reader.frames, params)
@@ -41,7 +52,7 @@ def gif2video(filename: str,
               text: str = "",
               text_style: str = "top",
               progress_bar: bool = False
-) -> None:
+              ) -> None:
     params = {"filename": filename,
               "quality": quality,
               "output": output,
@@ -51,6 +62,10 @@ def gif2video(filename: str,
               "text_style": text_style,
               "progress_bar": progress_bar
               }
+    if not os.path.exists(filename):
+        raise FileDoesNotExistError(f"File '{filename}' does not exist.")
+    if filename[-4:] != ".gif":
+        raise FileTypeError(f"File '{filename}' is not a gif.")
     reader = Reader(params)
     params = reader.params
     writer = Writer(reader.frames, params)
