@@ -21,13 +21,14 @@ class Utils(object):
     @staticmethod
     def create_text_overlay(resolution: Tuple, params: Dict) -> Optional[Tuple]:
         text = params['text']
-        if text == "":
-            return
 
         frame = np.zeros((resolution[1], resolution[0], 3), np.uint8)
 
         if params['width']:
             frame = Utils.resize_frame(frame, params["width"])
+
+        if text == "":
+            return frame, (frame.shape[1], frame.shape[0])
 
         frame = Image.new('RGBA', (frame.shape[1], frame.shape[0]), (0, 0, 0, 0))
         size, text = Utils.__calculate_font_size(frame, text)

@@ -39,7 +39,6 @@ class Writer:
 
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         size = self.params["resolution"]
-        print(size)
         writer = cv2.VideoWriter(f"{self.output}.mp4", fourcc, self.fps, size)
 
         if self.params['progress_bar']:
