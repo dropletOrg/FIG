@@ -12,20 +12,23 @@ class Reader:
         self.params = params
         self.frames = []
 
-        self.cap = cv2.VideoCapture(self.filename)
-        data = Utils.get_video_data(self.cap)
+        cap = cv2.VideoCapture(self.filename)
+        data = Utils.get_video_data(cap)
+        cap.release()
         self.fps = data['fps']
         self.frame_count = data['frame_count']
         self.params["frame_count"] = self.frame_count
         self.params["fps"] = self.fps
 
-        self.text_overlay_image = Utils.create_text_overlay(self.cap, self.params)
+        self.text_overlay_image = None
 
     def read_video(self) -> None:
+        cap = cv2.VideoCapture(self.filename)
+        self.text_overlay_image = Utils.create_text_overlay(cap, self.params)
         if self.params['progress_bar']:
             pbar = tqdm.tqdm(total=self.frame_count, desc='Reading and processing frames')
-        while self.cap.isOpened():
-            frame = self.cap.read()[1]
+        while cap.isOpened():
+            frame = cap.read()[1]
             if frame is not None:
                 frame = Utils.morb_frame(frame, self.params, self.text_overlay_image)
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -36,9 +39,7 @@ class Reader:
                 break
         if self.params['progress_bar']:
             pbar.close()
-            sys.stdout.write('\x1b[1A')
-            sys.stdout.flush()
-        self.cap.release()
+        cap.release()
 
     def read_gif(self) -> None:
         with imageio.get_reader(self.filename) as reader:
@@ -52,5 +53,3 @@ class Reader:
                     pbar.update(1)
             if self.params['progress_bar']:
                 pbar.close()
-                sys.stdout.write('\x1b[1A')
-                sys.stdout.flush()

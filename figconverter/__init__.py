@@ -30,19 +30,19 @@ def video2gif(
     params = reader.params
     writer = Writer(reader.frames, params)
 
-    read_thread = threading.Thread(target=reader.read_video)
-    read_thread.start()
+    reader.read_video()
     writer.write_gif()
 
 
-def gif2video(filename: str, progress_bar: bool = False) -> None:
-    params = {"filename": filename,
-              "progress_bar": progress_bar
-              }
+def gif2video(filename: str, output: Optional[str] = None, progress_bar: bool = False) -> None:
+    params = {  
+        "filename": filename,
+        "output": output,
+        "progress_bar": progress_bar
+    }
     reader = Reader(params)
     params = reader.params
     writer = Writer(reader.frames, params)
 
-    read_thread = threading.Thread(target=reader.read_gif)
-    read_thread.start()
+    reader.read_gif()
     writer.write_video()

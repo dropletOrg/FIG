@@ -13,10 +13,10 @@ from figconverter.enum import TextOverlay
 @click.option('-kw', '--keep-width', default=False, is_flag=True, help='Keep the width of the gif')
 @click.option('-t', '--text', default="", help='Text to add to the gif')
 @click.option('-ts', '--text-style', default=TextOverlay.TOP.value, type=click.Choice([TextOverlay.TOP.value, TextOverlay.BOTTOM.value, TextOverlay.CAPTION.value]), help='Style of text to add to the gif')
-@click.option('-g2v', '--gif2video', default=False, is_flag=True, help='Convert a gif to video (other options are ignored)')
+@click.option('-g2v', '--gif2video', default=False, is_flag=True, help='Convert a gif to video (other options except for output are ignored)')
 def main(filename, quality, output, width, shit_optimize, keep_width, text, text_style, gif2video):
     if gif2video:
-        figconverter.gif2video(filename, True)
+        figconverter.gif2video(filename, output, True)
         return
     figconverter.video2gif(filename, output, width, quality, shit_optimize, keep_width, text, text_style, True)
 
