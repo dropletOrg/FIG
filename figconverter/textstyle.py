@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class TextOverlay(Enum):
+class TextStyle(Enum):
     TOP = "top"
     BOTTOM = "bottom"
     CAPTION = "caption"
