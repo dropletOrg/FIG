@@ -6,7 +6,7 @@ from figconverter.textstyle import TextStyle
 @click.version_option(figconverter.__version__, "-v", "--version")
 @click.command()
 @click.argument('filename', type=click.Path(exists=True))
-@click.option('-q', '--quality', is_flag=True, default=False, help='priorotize quality over speed', show_default=True)
+@click.option('-q', '--quality', is_flag=True, default=False, help='priorotize quality over speed and size', show_default=True)
 @click.option('-o', '--output', help='Output filename')
 @click.option('-w', '--width', help='Width of the gif (must be 16 or bigger)', type=int)
 @click.option('-so', '--shit-optimize', default=False, is_flag=True, help='Optimize the gif but change it to 256 colors (requires gifsicle)')

@@ -4,7 +4,7 @@ from multiprocessing import Process
 from typing import Optional
 import os
 
-__version__ = "2.0.0"
+__version__ = "2.0.0-beta"
 
 class FileTypeError(Exception):
     pass
