@@ -1,48 +1,68 @@
 from .reader import Reader
 from .writer import Writer
-import threading
+from multiprocessing import Process
 from typing import Optional
+import os
+
+
+class FileTypeError(Exception):
+    pass
+
+
+class FileDoesNotExistError(Exception):
+    pass
 
 
 def video2gif(
         filename: str,
         output: Optional[str] = None,
         width: Optional[int] = None,
+        fps_reduction: int = 1,
         quality: int = 100,
         shit_optimize: bool = False,
-        keep_width: bool = False,
         text: str = "",
         text_style: str = "top",
         progress_bar: bool = False
 ) -> None:
 
-    params = {"filename": filename,
-              "quality": quality,
-              "output": output,
-              "width": width,
-              "shit_optimize": shit_optimize,
-              "keep_width": keep_width,
-              "text": text,
-              "text_style": text_style,
-              "progress_bar": progress_bar
-              }
-    reader = Reader(params)
-    params = reader.params
-    writer = Writer(reader.frames, params)
-
-    reader.read_video()
-    writer.write_gif()
+    if not os.path.exists(filename):
+        raise FileDoesNotExistError(f"File '{filename}' does not exist.")
+        
+    reader = Reader(filename, output, width, fps_reduction, quality, shit_optimize, text, text_style, progress_bar)
+    writer = Writer(filename, reader.frames, reader.resolution, output, fps_reduction, shit_optimize, progress_bar)
+    
+    try:
+        p = Process(target=reader.read_video, args=())
+        p.start()
+        writer.write_gif()
+        p.join()
+    except KeyboardInterrupt:
+        p.terminate()
 
 
-def gif2video(filename: str, output: Optional[str] = None, progress_bar: bool = False) -> None:
-    params = {  
-        "filename": filename,
-        "output": output,
-        "progress_bar": progress_bar
-    }
-    reader = Reader(params)
-    params = reader.params
-    writer = Writer(reader.frames, params)
+def gif2video(
+        filename: str,
+        output: Optional[str] = None,
+        width: Optional[int] = None,
+        quality: int = 100,
+        shit_optimize: bool = False,
+        text: str = "",
+        text_style: str = "top",
+        progress_bar: bool = False
+) -> None:
 
-    reader.read_gif()
-    writer.write_video()
+    if not os.path.exists(filename):
+        raise FileDoesNotExistError(f"File '{filename}' does not exist.")
+    if filename[-4:] != ".gif":
+        raise FileTypeError(f"File '{filename}' is not a gif.")
+
+    reader = Reader(filename, output, width, quality, shit_optimize, text, text_style, progress_bar)
+    writer = Writer(filename, reader.frames, reader.resolution, output, shit_optimize, progress_bar)
+
+    try:
+        p = Process(target=reader.read_video, args=())
+        p.start()
+        writer.write_video()
+        p.join()
+    except KeyboardInterrupt:
+        p.terminate()

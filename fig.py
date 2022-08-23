@@ -1,24 +1,27 @@
 import click
 import sys
 import figconverter
-from figconverter.enum import TextOverlay
+from figconverter.textstyle import TextStyle
 
 
 @click.command()
 @click.argument('filename', type=click.Path(exists=True))
 @click.option('-q', '--quality', default=100, help='Quality of the gif (applies jpeg lossy compression to the gif, 100 - no compression, 0 - shitloads of compression)', show_default=True, type=click.IntRange(0, 100))
 @click.option('-o', '--output', help='Output filename')
-@click.option('-w', '--width', help='Width of the gif', show_default=True, type=click.IntRange(1, sys.maxsize))
+@click.option('-w', '--width', help='Width of the gif (must be 16 or bigger and smaller than original width)', type=int)
 @click.option('-so', '--shit-optimize', default=False, is_flag=True, help='Optimize the gif but change it to 256 colors (requires gifsicle)')
-@click.option('-kw', '--keep-width', default=False, is_flag=True, help='Keep the width of the gif')
 @click.option('-t', '--text', default="", help='Text to add to the gif')
-@click.option('-ts', '--text-style', default=TextOverlay.TOP.value, type=click.Choice([TextOverlay.TOP.value, TextOverlay.BOTTOM.value, TextOverlay.CAPTION.value]), help='Style of text to add to the gif')
-@click.option('-g2v', '--gif2video', default=False, is_flag=True, help='Convert a gif to video (other options except for output are ignored)')
-def main(filename, quality, output, width, shit_optimize, keep_width, text, text_style, gif2video):
+@click.option('-ts', '--text-style', default=TextStyle.TOP.value, type=click.Choice([TextStyle.TOP.value, TextStyle.BOTTOM.value, TextStyle.CAPTION.value]), help='Style of text to add to the gif')
+@click.option('-g2v', '--gif2video', default=False, is_flag=True, help='Convert a gif to a video')
+@click.option('-fr', '--fps-reduction', default=1, help="devide fps by thiss number (must be bigger than 0 and can't be bigger than the original fps)", type=int)
+def main(filename, quality, output, width, shit_optimize, text, text_style, gif2video, fps_reduction):
     if gif2video:
-        figconverter.gif2video(filename, output, True)
+        if filename[-4:] != ".gif":
+            raise click.BadParameter(f"File '{filename}' is not a gif.", param_hint='FILENAME')
+        figconverter.gif2video(filename, output, width, quality, shit_optimize, text, TextStyle(text_style), True)
         return
-    figconverter.video2gif(filename, output, width, quality, shit_optimize, keep_width, text, text_style, True)
+
+    figconverter.video2gif(filename, output, width, fps_reduction, quality, shit_optimize, text, TextStyle(text_style), True)
 
 
 if __name__ == '__main__':

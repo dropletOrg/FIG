@@ -3,53 +3,78 @@ from .utils import Utils
 import tqdm
 import imageio
 import sys
-from typing import Dict
+from typing import Optional
+from multiprocessing import Queue
+import math
 
 
 class Reader:
-    def __init__(self, params: Dict):
-        self.filename = params["filename"]
-        self.params = params
-        self.frames = []
+    def __init__(
+        self, 
+        filename: str,
+        output: Optional[str] = None,
+        width: Optional[int] = None,
+        fps_reduction: int = 1,
+        quality: int = 100,
+        shit_optimize: bool = False,
+        text: str = "",
+        text_style: str = "top",
+        progress_bar: bool = False
+    ):
+        self.filename = filename
+        self.output = output
+        self.width = width
+        self.fps_reduction = fps_reduction
+        self.quality = quality
+        self.shit_optimize = shit_optimize
+        self.text = text
+        self.text_style = text_style
+        self.progress_bar = progress_bar
 
-        cap = cv2.VideoCapture(self.filename)
-        data = Utils.get_video_data(cap)
-        cap.release()
-        self.fps = data['fps']
+        data = Utils.get_video_data(self.filename)
         self.frame_count = data['frame_count']
-        self.params["frame_count"] = self.frame_count
-        self.params["fps"] = self.fps
+        self.resolution = data['resolution']
 
-        self.text_overlay_image = None
+        if self.fps_reduction <= 0 or self.fps_reduction > data["fps"]:
+            self.fps_reduction = 1
+        self.frame_count = math.ceil(self.frame_count / self.fps_reduction)
+
+        self.text_overlay_image = Utils.create_text_overlay(self.resolution, text, width, text_style)
+        self.resolution = self.text_overlay_image[2][0]
+
+        self.frames = Queue(self.frame_count)
 
     def read_video(self) -> None:
         cap = cv2.VideoCapture(self.filename)
-        self.text_overlay_image = Utils.create_text_overlay(cap, self.params)
-        if self.params['progress_bar']:
-            pbar = tqdm.tqdm(total=self.frame_count, desc='Reading and processing frames')
+        if self.progress_bar:
+            pbar = tqdm.tqdm(total=self.frame_count, desc='Reading and processing frames', position=0)
+        i = -1
         while cap.isOpened():
             frame = cap.read()[1]
             if frame is not None:
-                frame = Utils.morb_frame(frame, self.params, self.text_overlay_image)
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                self.frames.append(frame)
-                if self.params['progress_bar']:
+                i += 1
+                if i % self.fps_reduction != 0:
+                    continue
+
+                frame = Utils.morb_frame(  # process frames
+                    frame, 
+                    self.text_overlay_image, 
+                    self.width, 
+                    self.text, 
+                    self.quality, 
+                )
+
+                self.frames.put(frame)
+
+                if self.progress_bar:
                     pbar.update(1)
             else:
                 break
-        if self.params['progress_bar']:
+        
+        if self.progress_bar:
             pbar.close()
+            sys.stdout.write('\x1b[1A')
+            sys.stdout.flush()
         cap.release()
 
-    def read_gif(self) -> None:
-        with imageio.get_reader(self.filename) as reader:
-            if self.params['progress_bar']:
-                pbar = tqdm.tqdm(total=reader.get_length(), desc='Reading frames')
-            for i, frame in enumerate(reader):
-                if i == self.frame_count:
-                    break
-                self.frames.append(frame)
-                if self.params['progress_bar']:
-                    pbar.update(1)
-            if self.params['progress_bar']:
-                pbar.close()
+        return
