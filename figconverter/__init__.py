@@ -8,24 +8,15 @@ def video2gif(
         filename: str,
         output: Optional[str] = None,
         width: Optional[int] = None,
+        fps_reduction: int = 1,
         quality: int = 100,
         shit_optimize: bool = False,
         text: str = "",
         text_style: str = "top",
         progress_bar: bool = False
 ) -> None:
-    params = {"filename": filename,
-              "quality": quality,
-              "output": output,
-              "width": width,
-              "shit_optimize": shit_optimize,
-              "text": text,
-              "text_style": text_style,
-              "progress_bar": progress_bar
-              }
-    reader = Reader(params)
-    params = reader.params
-    writer = Writer(reader.frames, params)
+    reader = Reader(filename, output, width, quality, shit_optimize, text, text_style, progress_bar)
+    writer = Writer(reader.frames, filename, output, shit_optimize, progress_bar)
 
     p = Process(target=reader.read_video, args=())
     p.start()
@@ -42,18 +33,8 @@ def gif2video(filename: str,
               text_style: str = "top",
               progress_bar: bool = False
 ) -> None:
-    params = {"filename": filename,
-              "quality": quality,
-              "output": output,
-              "width": width,
-              "shit_optimize": shit_optimize,
-              "text": text,
-              "text_style": text_style,
-              "progress_bar": progress_bar
-              }
-    reader = Reader(params)
-    params = reader.params
-    writer = Writer(reader.frames, params)
+    reader = Reader(filename, output, width, quality, shit_optimize, text, text_style, progress_bar)
+    writer = Writer(reader.frames, filename, output, shit_optimize, progress_bar)
 
     p = Process(target=reader.read_video, args=())
     p.start()

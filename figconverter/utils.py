@@ -3,7 +3,7 @@ import numpy as np
 from pygifsicle import gifsicle
 from PIL import ImageFont, ImageDraw, Image
 import more_itertools
-from .enum import TextOverlay
+from .textstyle import TextStyle
 from typing import Dict, Tuple, Optional
 
 
@@ -11,25 +11,32 @@ class Utils(object):
     @staticmethod
     def get_video_data(filename: str) -> Dict:
         cap = cv2.VideoCapture(filename)
-        fps = cap.get(cv2.CAP_PROP_FPS)
+        fps = int(cap.get(cv2.CAP_PROP_FPS))
         frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        resolution = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+        resolution = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
+                      int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
         cap.release()
 
         return {'fps': fps, 'frame_count': frame_count, 'resolution': resolution}
 
     @staticmethod
-    def create_text_overlay(resolution: Tuple, params: Dict) -> Optional[Tuple]:
-        text = params['text']
+    def create_text_overlay(
+        resolution: Tuple,
+        text: str,
+        width: Optional[int] = None,
+        text_style: TextStyle = TextStyle.TOP
+    ) -> Optional[Tuple]:
+
         if text == "":
             return
 
         frame = np.zeros((resolution[1], resolution[0], 3), np.uint8)
 
-        if params['width']:
-            frame = Utils.resize_frame(frame, params["width"])
+        if width:
+            frame = Utils.resize_frame(frame, width)
 
-        frame = Image.new('RGBA', (frame.shape[1], frame.shape[0]), (0, 0, 0, 0))
+        frame = Image.new(
+            'RGBA', (frame.shape[1], frame.shape[0]), (0, 0, 0, 0))
         size, text = Utils.__calculate_font_size(frame, text)
         font = ImageFont.truetype("impact.ttf", size)
         draw = ImageDraw.Draw(frame)
@@ -38,7 +45,7 @@ class Utils(object):
         y = frame.size[1] // 20
         font = ImageFont.truetype("impact.ttf", size)
 
-        if params['text_style'] == TextOverlay.CAPTION.value:
+        if text_style == TextStyle.CAPTION:
             top_margin = draw.textsize(text, font=font)[1] + y
             new_resolution = (frame.width, frame.height + top_margin)
             new_frame = Image.new(frame.mode, new_resolution, (255, 255, 255))
@@ -46,21 +53,25 @@ class Utils(object):
             frame = new_frame
             draw = ImageDraw.Draw(frame)
             draw.text((x, 0), text, font=font, fill=(0, 0, 0))
-            return frame, top_margin, new_resolution
+            return frame, text_style, (top_margin)
 
-        if params['text_style'] == TextOverlay.BOTTOM.value:
+        if text_style == TextStyle.BOTTOM:
             y = frame.size[1] - y - draw.textsize(text, font=font)[1]
 
         offset = size * 3 // 80
 
-        draw.text((x - offset - 1, y - offset - 1), text, font=font, fill=(0, 0, 0))
-        draw.text((x + offset + 1, y - offset - 1), text, font=font, fill=(0, 0, 0))
-        draw.text((x - offset - 1, y + offset + 1), text, font=font, fill=(0, 0, 0))
-        draw.text((x + offset + 1, y + offset + 1), text, font=font, fill=(0, 0, 0))
+        draw.text((x - offset - 1, y - offset - 1),
+                  text, font=font, fill=(0, 0, 0))
+        draw.text((x + offset + 1, y - offset - 1),
+                  text, font=font, fill=(0, 0, 0))
+        draw.text((x - offset - 1, y + offset + 1),
+                  text, font=font, fill=(0, 0, 0))
+        draw.text((x + offset + 1, y + offset + 1),
+                  text, font=font, fill=(0, 0, 0))
 
         draw.text((x, y), text, font=font, fill=(255, 255, 255))
         new_resolution = (frame.width, frame.height)
-        return frame, new_resolution
+        return frame, text_style, ()
 
     @staticmethod
     def cv22pil(frame: np.ndarray) -> Image.Image:
@@ -72,18 +83,24 @@ class Utils(object):
         return cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
 
     @staticmethod
-    def shitty_compression(filename: str, params: Dict) -> None:
-        if params["shit_optimize"]:
-            gifsicle(sources=f"{filename}.gif", optimize=True, colors=256)
+    def shit_optimize(filename: str) -> None:
+        gifsicle(sources=f"{filename}.gif", optimize=True, colors=256)
 
     @staticmethod
-    def morb_frame(frame: np.ndarray, params: Dict, text_overlay_image: Optional[Image.Image]) -> np.ndarray:
-        if params["width"]:
-            frame = Utils.resize_frame(frame, params["width"])
-        if params["text"] != "":
-            frame = Utils.caption_video(frame, params, text_overlay_image)
-        if params["quality"] != 100:
-            frame = Utils.compress_frame(frame, params["quality"])
+    def morb_frame(
+        frame: np.ndarray,
+        text_overlay_image: Optional[Image.Image],
+        width: Optional[int] = None,
+        text: str = "",
+        quality: int = 100
+    ) -> np.ndarray:
+
+        if width:
+            frame = Utils.resize_frame(frame, width)
+        if text != "":
+            frame = Utils.caption_video(frame, text_overlay_image)
+        if quality != 100:
+            frame = Utils.compress_frame(frame, quality)
         return frame
 
     @staticmethod
@@ -94,11 +111,13 @@ class Utils(object):
 
     @staticmethod
     def resize_frame(frame: np.ndarray, width: int) -> np.ndarray:
+        if width < 16:
+            return frame
         return cv2.resize(frame, (width, frame.shape[0] * width // frame.shape[1]))
 
     @staticmethod
-    def caption_video(frame: np.ndarray, params: Dict, text_overlay_image: Image.Image) -> np.ndarray:
-        return Utils.__overlay_text(frame, text_overlay_image, params['text_style'])
+    def caption_video(frame: np.ndarray, text_overlay_image: Image.Image) -> np.ndarray:
+        return Utils.__overlay_text(frame, text_overlay_image)
 
     @staticmethod
     def __calculate_font_size(frame: Image.Image, text: str = "", depth: int = 0) -> Tuple[int, str]:
@@ -108,22 +127,27 @@ class Utils(object):
 
         giant_ass_font = ImageFont.truetype("impact.ttf", 10000)
         draw = ImageDraw.Draw(frame)
-        size = 10000 * max_text_size // draw.textsize(text, font=giant_ass_font)[0]
+        size = 10000 * \
+            max_text_size // draw.textsize(text, font=giant_ass_font)[0]
         if size < min_size:
             new_text = text.replace("\n", "").split(" ")
-            new_text = [list(x) for x in more_itertools.divide(depth + 2, new_text)]
+            new_text = [list(x)
+                        for x in more_itertools.divide(depth + 2, new_text)]
             new_text = " \n".join(" ".join(x) for x in new_text)
-            size, text = Utils.__calculate_font_size(frame, new_text, depth + 1)
+            size, text = Utils.__calculate_font_size(
+                frame, new_text, depth + 1)
         elif size > max_size:
             size = max_size
 
         return size, text
 
     @staticmethod
-    def __overlay_text(frame: np.ndarray, text_overlay_image: Image.Image, text_style: str) -> np.ndarray:
+    def __overlay_text(frame: np.ndarray, text_overlay_image: Image.Image) -> np.ndarray:
         frame = Utils.cv22pil(frame)
-        if text_style == TextOverlay.CAPTION.value:
-            text_overlay_image[0].paste(frame, (0, text_overlay_image[1]))
+        text_style = text_overlay_image[1]
+        if text_style == TextStyle.CAPTION:
+            top_margin = text_overlay_image[2][0]
+            text_overlay_image[0].paste(frame, (0, top_margin))
             frame = text_overlay_image[0]
             return Utils.pil2cv2(frame)
         frame.paste(text_overlay_image[0], (0, 0), text_overlay_image[0])
