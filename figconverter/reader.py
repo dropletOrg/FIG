@@ -33,6 +33,7 @@ class Reader:
         self.resolution = data['resolution']
 
         self.text_overlay_image = Utils.create_text_overlay(self.resolution, text, width, text_style)
+        self.resolution = self.text_overlay_image[2][0]
 
         self.frames = Queue(self.frame_count)
 

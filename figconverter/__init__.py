@@ -16,7 +16,7 @@ def video2gif(
         progress_bar: bool = False
 ) -> None:
     reader = Reader(filename, output, width, quality, shit_optimize, text, text_style, progress_bar)
-    writer = Writer(reader.frames, filename, output, shit_optimize, progress_bar)
+    writer = Writer(filename, reader.frames, reader.resolution, output, shit_optimize, progress_bar)
 
     p = Process(target=reader.read_video, args=())
     p.start()
@@ -34,7 +34,7 @@ def gif2video(filename: str,
               progress_bar: bool = False
 ) -> None:
     reader = Reader(filename, output, width, quality, shit_optimize, text, text_style, progress_bar)
-    writer = Writer(reader.frames, filename, output, shit_optimize, progress_bar)
+    writer = Writer(filename, reader.frames, reader.resolution, output, shit_optimize, progress_bar)
 
     p = Process(target=reader.read_video, args=())
     p.start()

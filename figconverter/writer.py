@@ -2,7 +2,7 @@ from tkinter import E
 import tqdm
 import imageio
 import sys
-from typing import List, Optional
+from typing import Tuple, Optional
 from .utils import Utils
 import cv2
 import os
@@ -12,14 +12,16 @@ from multiprocessing import Queue
 class Writer:
     def __init__(
         self, 
-        frames: Queue, 
-        filename: str, 
+        filename: str,
+        frames: Queue,
+        resolution: Tuple,
         output: Optional[str] = None, 
         shit_optimize = False, 
         progress_bar: bool = False
     ):
-        self.frames = frames
         self.filename = filename
+        self.frames = frames
+        self.resolution = resolution
         self.output = output
         self.shit_optimize = shit_optimize
         self.progress_bar = progress_bar
@@ -27,7 +29,6 @@ class Writer:
         data = Utils.get_video_data(self.filename)
         self.fps = data["fps"]
         self.frame_count = data["frame_count"]
-        self.resolution = data["resolution"]
 
         if self.output is None:
             self.output = "".join(os.path.basename(self.filename).split('.')[:-1])
@@ -54,7 +55,6 @@ class Writer:
 
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         size = self.resolution
-        print(size)
         writer = cv2.VideoWriter(f"{self.output}.mp4", fourcc, self.fps, size)
 
         if self.progress_bar:

@@ -53,7 +53,7 @@ class Utils(object):
             frame = new_frame
             draw = ImageDraw.Draw(frame)
             draw.text((x, 0), text, font=font, fill=(0, 0, 0))
-            return frame, text_style, (top_margin)
+            return frame, text_style, (new_resolution, top_margin)
 
         if text_style == TextStyle.BOTTOM:
             y = frame.size[1] - y - draw.textsize(text, font=font)[1]
@@ -71,7 +71,7 @@ class Utils(object):
 
         draw.text((x, y), text, font=font, fill=(255, 255, 255))
         new_resolution = (frame.width, frame.height)
-        return frame, text_style, ()
+        return frame, text_style, (new_resolution,)
 
     @staticmethod
     def cv22pil(frame: np.ndarray) -> Image.Image:
@@ -146,7 +146,7 @@ class Utils(object):
         frame = Utils.cv22pil(frame)
         text_style = text_overlay_image[1]
         if text_style == TextStyle.CAPTION:
-            top_margin = text_overlay_image[2][0]
+            top_margin = text_overlay_image[2][1]
             text_overlay_image[0].paste(frame, (0, top_margin))
             frame = text_overlay_image[0]
             return Utils.pil2cv2(frame)
