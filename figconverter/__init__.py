@@ -4,6 +4,7 @@ from multiprocessing import Process
 from typing import Optional
 import os
 
+__version__ = "1.5"
 
 class FileTypeError(Exception):
     pass

@@ -3,7 +3,7 @@ import sys
 import figconverter
 from figconverter.textstyle import TextStyle
 
-
+@click.version_option(figconverter.__version__, "-v", "--version")
 @click.command()
 @click.argument('filename', type=click.Path(exists=True))
 @click.option('-q', '--quality', default=100, help='Quality of the gif (applies jpeg lossy compression to the gif, 100 - no compression, 0 - shitloads of compression)', show_default=True, type=click.IntRange(0, 100))
