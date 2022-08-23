@@ -5,6 +5,7 @@ import imageio
 import sys
 from typing import Optional
 from multiprocessing import Queue
+import math
 
 
 class Reader:
@@ -13,6 +14,7 @@ class Reader:
         filename: str,
         output: Optional[str] = None,
         width: Optional[int] = None,
+        fps_reduction: int = 1,
         quality: int = 100,
         shit_optimize: bool = False,
         text: str = "",
@@ -22,6 +24,7 @@ class Reader:
         self.filename = filename
         self.output = output
         self.width = width
+        self.fps_reduction = fps_reduction
         self.quality = quality
         self.shit_optimize = shit_optimize
         self.text = text
@@ -32,6 +35,10 @@ class Reader:
         self.frame_count = data['frame_count']
         self.resolution = data['resolution']
 
+        if self.fps_reduction <= 0 or self.fps_reduction > data["fps"]:
+            self.fps_reduction = 1
+        self.frame_count = math.ceil(self.frame_count / self.fps_reduction)
+
         self.text_overlay_image = Utils.create_text_overlay(self.resolution, text, width, text_style)
         self.resolution = self.text_overlay_image[2][0]
 
@@ -41,9 +48,14 @@ class Reader:
         cap = cv2.VideoCapture(self.filename)
         if self.progress_bar:
             pbar = tqdm.tqdm(total=self.frame_count, desc='Reading and processing frames', position=0)
+        i = -1
         while cap.isOpened():
             frame = cap.read()[1]
             if frame is not None:
+                i += 1
+                if i % self.fps_reduction != 0:
+                    continue
+
                 frame = Utils.morb_frame(  # process frames
                     frame, 
                     self.text_overlay_image, 
@@ -51,15 +63,18 @@ class Reader:
                     self.text, 
                     self.quality, 
                 )
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # convert frame from BGR to RGB
+
                 self.frames.put(frame)
 
                 if self.progress_bar:
                     pbar.update(1)
             else:
                 break
+        
         if self.progress_bar:
             pbar.close()
             sys.stdout.write('\x1b[1A')
             sys.stdout.flush()
         cap.release()
+
+        return

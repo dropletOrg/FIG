@@ -8,12 +8,12 @@ from figconverter.textstyle import TextStyle
 @click.argument('filename', type=click.Path(exists=True))
 @click.option('-q', '--quality', default=100, help='Quality of the gif (applies jpeg lossy compression to the gif, 100 - no compression, 0 - shitloads of compression)', show_default=True, type=click.IntRange(0, 100))
 @click.option('-o', '--output', help='Output filename')
-@click.option('-w', '--width', help='Width of the gif', type=click.IntRange(1, sys.maxsize))
+@click.option('-w', '--width', help='Width of the gif (must be 16 or bigger and smaller than original width)', type=int)
 @click.option('-so', '--shit-optimize', default=False, is_flag=True, help='Optimize the gif but change it to 256 colors (requires gifsicle)')
 @click.option('-t', '--text', default="", help='Text to add to the gif')
 @click.option('-ts', '--text-style', default=TextStyle.TOP.value, type=click.Choice([TextStyle.TOP.value, TextStyle.BOTTOM.value, TextStyle.CAPTION.value]), help='Style of text to add to the gif')
 @click.option('-g2v', '--gif2video', default=False, is_flag=True, help='Convert a gif to a video')
-@click.option('-fr', '--fps-reduction', default=1, help="devide fps by this number", type=click.IntRange())
+@click.option('-fr', '--fps-reduction', default=1, help="devide fps by thiss number (must be bigger than 0 and can't be bigger than the original fps)", type=int)
 def main(filename, quality, output, width, shit_optimize, text, text_style, gif2video, fps_reduction):
     if gif2video:
         if filename[-4:] != ".gif":
