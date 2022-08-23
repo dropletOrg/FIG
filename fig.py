@@ -6,7 +6,7 @@ from figconverter.textstyle import TextStyle
 @click.version_option(figconverter.__version__, "-v", "--version")
 @click.command()
 @click.argument('filename', type=click.Path(exists=True))
-@click.option('-q', '--quality', default=100, help='Quality of the gif (applies jpeg lossy compression to the gif, 100 - no compression, 0 - shitloads of compression)', show_default=True, type=click.IntRange(0, 100))
+@click.option('-q', '--quality', is_flag=True, default=False, help='priorotize quality over speed', show_default=True)
 @click.option('-o', '--output', help='Output filename')
 @click.option('-w', '--width', help='Width of the gif (must be 16 or bigger)', type=int)
 @click.option('-so', '--shit-optimize', default=False, is_flag=True, help='Optimize the gif but change it to 256 colors (requires gifsicle)')
@@ -18,7 +18,7 @@ def main(filename, quality, output, width, shit_optimize, text, text_style, gif2
     if gif2video:
         if filename[-4:] != ".gif":
             raise click.BadParameter(f"File '{filename}' is not a gif.", param_hint='FILENAME')
-        figconverter.gif2video(filename, output, width, quality, shit_optimize, text, TextStyle(text_style), True)
+        figconverter.gif2video(filename, output, width, fps_reduction, quality, shit_optimize, text, TextStyle(text_style), True)
         return
 
     figconverter.video2gif(filename, output, width, fps_reduction, quality, shit_optimize, text, TextStyle(text_style), True)

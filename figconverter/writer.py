@@ -16,6 +16,7 @@ class Writer:
         filename: str,
         frames: Queue,
         resolution: Tuple,
+        quality: bool = False,
         output: Optional[str] = None, 
         fps_reduction: int = 1,
         shit_optimize = False, 
@@ -24,6 +25,7 @@ class Writer:
         self.filename = filename
         self.frames = frames
         self.resolution = resolution
+        self.quality = quality
         self.output = output
         self.shit_optimize = shit_optimize
         self.progress_bar = progress_bar
@@ -39,7 +41,10 @@ class Writer:
             self.output = "".join(os.path.basename(self.filename).split('.')[:-1])
 
     def write_gif(self) -> None:
-        with imageio.get_writer(f"{self.output}.gif", mode='I', fps=self.fps) as writer:
+        quantizer = 2
+        if self.quality:
+            quantizer = 0
+        with imageio.get_writer(f"{self.output}.gif", mode='I', fps=self.fps, quantizer=quantizer) as writer:
             if self.progress_bar:
                 pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1)
             for i in range(self.frame_count):
