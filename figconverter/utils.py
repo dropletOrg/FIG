@@ -26,10 +26,7 @@ class Utils(object):
         width: Optional[int] = None,
         text_style: TextStyle = TextStyle.TOP
     ) -> Optional[Tuple]:
-
-        if text == "":
-            return
-
+    
         frame = np.zeros((resolution[1], resolution[0], 3), np.uint8)
 
         if width:

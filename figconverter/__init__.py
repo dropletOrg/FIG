@@ -30,11 +30,14 @@ def video2gif(
         
     reader = Reader(filename, output, width, quality, shit_optimize, text, text_style, progress_bar)
     writer = Writer(filename, reader.frames, reader.resolution, output, shit_optimize, progress_bar)
-
-    p = Process(target=reader.read_video, args=())
-    p.start()
-    writer.write_gif()
-    p.join()
+    
+    try:
+        p = Process(target=reader.read_video, args=())
+        p.start()
+        writer.write_gif()
+        p.join()
+    except KeyboardInterrupt:
+        p.terminate()
 
 
 def gif2video(
