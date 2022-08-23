@@ -7,6 +7,7 @@ from .utils import Utils
 import cv2
 import os
 from multiprocessing import Queue
+import math
 
 
 class Writer:
@@ -16,6 +17,7 @@ class Writer:
         frames: Queue,
         resolution: Tuple,
         output: Optional[str] = None, 
+        fps_reduction: int = 1,
         shit_optimize = False, 
         progress_bar: bool = False
     ):
@@ -29,6 +31,9 @@ class Writer:
         data = Utils.get_video_data(self.filename)
         self.fps = data["fps"]
         self.frame_count = data["frame_count"]
+        if fps_reduction > 0 and fps_reduction <= self.fps:
+            self.fps /= fps_reduction
+            self.frame_count = math.ceil(self.frame_count / fps_reduction)
 
         if self.output is None:
             self.output = "".join(os.path.basename(self.filename).split('.')[:-1])
@@ -38,14 +43,15 @@ class Writer:
             if self.progress_bar:
                 pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1)
             for i in range(self.frame_count):
-                writer.append_data(self.frames.get())
+                frame = self.frames.get()
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                writer.append_data(frame)
                 if self.progress_bar:
                     pbar.update(1)
         if self.progress_bar:
             sys.stdout.write('\n')
             sys.stdout.flush()
             pbar.close()
-        
         if self.shit_optimize: 
             Utils.shit_optimize(self.output)
 
@@ -61,7 +67,6 @@ class Writer:
             pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1)
         for i in range(self.frame_count):
             frame = self.frames.get()
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             writer.write(frame)
             if self.progress_bar:
                 pbar.update(1)

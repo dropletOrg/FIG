@@ -48,13 +48,13 @@ class Utils(object):
         font = ImageFont.truetype("impact.ttf", size)
 
         if text_style == TextStyle.CAPTION:
-            top_margin = draw.textsize(text, font=font)[1] + y
+            top_margin = draw.textsize(text, font=font)[1] + y*2
             new_resolution = (frame.width, frame.height + top_margin)
             new_frame = Image.new(frame.mode, new_resolution, (255, 255, 255))
             new_frame.paste(frame, (0, top_margin))
             frame = new_frame
             draw = ImageDraw.Draw(frame)
-            draw.text((x, 0), text, font=font, fill=(0, 0, 0))
+            draw.text((x, y//2), text, font=font, fill=(0, 0, 0))
             return frame, text_style, (new_resolution, top_margin)
 
         if text_style == TextStyle.BOTTOM:
