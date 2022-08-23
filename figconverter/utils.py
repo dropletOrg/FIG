@@ -94,22 +94,13 @@ class Utils(object):
         text_overlay_image: Optional[Image.Image],
         width: Optional[int] = None,
         text: str = "",
-        quality: int = 100
     ) -> np.ndarray:
 
         if width:
             frame = Utils.resize_frame(frame, width)
         if text != "":
             frame = Utils.caption_video(frame, text_overlay_image)
-        if quality != 100:
-            frame = Utils.compress_frame(frame, quality)
         return frame
-
-    @staticmethod
-    def compress_frame(frame: np.ndarray, quality: int = 100) -> np.ndarray:
-        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), quality]
-        result, encframe = cv2.imencode('.jpg', frame, encode_param)
-        return cv2.imdecode(encframe, 1)
 
     @staticmethod
     def resize_frame(frame: np.ndarray, width: int) -> np.ndarray:

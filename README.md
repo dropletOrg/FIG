@@ -6,27 +6,22 @@ A [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) python pac
 You can use FIG's built-in CLI to convert videos to GIFs through the Command-Line.
 
 ```
-Usage: fig FILENAME [OPTIONS]
+Usage: fig.py [OPTIONS] FILENAME
 
 Options:
-  -q, --quality INTEGER RANGE     Quality of the gif (applies jpeg lossy
-                                  compression to the gif, 100 - no
-                                  compression, 0 - shitloads of compression)
-                                  [default: 100; 0<=x<=100]
+  -q, --quality                   priorotize quality over speed and size
   -o, --output TEXT               Output filename
-  -w, --width INTEGER RANGE       Width of the gif
-                                  [1<=x]
+  -w, --width INTEGER             Width of the gif (must be 16 or bigger)
   -so, --shit-optimize            Optimize the gif but change it to 256 colors
                                   (requires gifsicle)
-  -kw, --keep-width               Keep the width of the gif
-  -t, --caption TEXT              Text to add to the gif
+  -t, --text TEXT                 Text to add to the gif
   -ts, --text-style [top|bottom|caption]
                                   Style of text to add to the gif
-  -g2v, --gif2video               Convert a gif to video (other options are
-                                  ignored)
-  --help                          Display all options for the CLI
-
-  -v, --version                   Display the version of FIG
+  -g2v, --gif2video               Convert a gif to a video
+  -fr, --fps-reduction INTEGER    devide fps by thiss number (must be bigger
+                                  than 0 and can't be bigger than the original
+                                  fps)
+  -v, --version                   Show the version and exit.
 ```
 Or you could use FIG as a Python package.
 
