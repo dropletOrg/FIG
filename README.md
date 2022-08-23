@@ -9,10 +9,7 @@ You can use FIG's built-in CLI to convert videos to GIFs through the Command-Lin
 Usage: fig.py [OPTIONS] FILENAME
 
 Options:
-  -q, --quality INTEGER RANGE     Quality of the gif (applies jpeg lossy
-                                  compression to the gif, 100 - no
-                                  compression, 0 - shitloads of compression)
-                                  [default: 100; 0<=x<=100]
+  -q, --quality                   priorotize quality over speed and size
   -o, --output TEXT               Output filename
   -w, --width INTEGER             Width of the gif (must be 16 or bigger)
   -so, --shit-optimize            Optimize the gif but change it to 256 colors
