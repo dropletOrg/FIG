@@ -14,8 +14,7 @@ Options:
                                   compression, 0 - shitloads of compression)
                                   [default: 100; 0<=x<=100]
   -o, --output TEXT               Output filename
-  -w, --width INTEGER             Width of the gif (must be 16 or bigger and
-                                  smaller than original width)
+  -w, --width INTEGER             Width of the gif (must be 16 or bigger)
   -so, --shit-optimize            Optimize the gif but change it to 256 colors
                                   (requires gifsicle)
   -t, --text TEXT                 Text to add to the gif
