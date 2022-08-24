@@ -15,6 +15,7 @@ class Reader:
         output: Optional[str] = None,
         width: Optional[int] = None,
         fps_reduction: int = 1,
+        dither: bool = False,
         shit_optimize: bool = False,
         text: str = "",
         text_style: str = "top",
@@ -24,6 +25,7 @@ class Reader:
         self.output = output
         self.width = width
         self.fps_reduction = fps_reduction
+        self.dither = dither
         self.shit_optimize = shit_optimize
         self.text = text
         self.text_style = text_style
@@ -58,7 +60,8 @@ class Reader:
                     frame, 
                     self.text_overlay_image, 
                     self.width, 
-                    self.text, 
+                    self.text,
+                    self.dither
                 )
 
                 self.frames.put(frame)

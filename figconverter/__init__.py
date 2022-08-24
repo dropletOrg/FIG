@@ -20,6 +20,7 @@ def video2gif(
         width: Optional[int] = None,
         fps_reduction: int = 1,
         quality: bool = False,
+        dither: bool = False,
         shit_optimize: bool = False,
         text: str = "",
         text_style: str = "top",
@@ -29,7 +30,7 @@ def video2gif(
     if not os.path.exists(filename):
         raise FileDoesNotExistError(f"File '{filename}' does not exist.")
         
-    reader = Reader(filename, output, width, fps_reduction, shit_optimize, text, text_style, progress_bar)
+    reader = Reader(filename, output, width, fps_reduction, dither, shit_optimize, text, text_style, progress_bar)
     writer = Writer(filename, reader.frames, reader.resolution, quality, output, fps_reduction, shit_optimize, progress_bar)
     
     try:
@@ -47,6 +48,7 @@ def gif2video(
         width: Optional[int] = None,
         fps_reduction: int = 1,
         quality: bool = False,
+        dither: bool = False,
         shit_optimize: bool = False,
         text: str = "",
         text_style: str = "top",
@@ -58,7 +60,7 @@ def gif2video(
     if filename[-4:] != ".gif":
         raise FileTypeError(f"File '{filename}' is not a gif.")
 
-    reader = Reader(filename, output, width, fps_reduction, shit_optimize, text, text_style, progress_bar)
+    reader = Reader(filename, output, width, fps_reduction, dither, shit_optimize, text, text_style, progress_bar)
     writer = Writer(filename, reader.frames, reader.resolution, quality, output, fps_reduction, shit_optimize, progress_bar)
 
     try:

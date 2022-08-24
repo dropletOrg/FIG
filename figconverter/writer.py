@@ -65,8 +65,7 @@ class Writer:
             pass
 
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        size = self.resolution
-        writer = cv2.VideoWriter(f"{self.output}.mp4", fourcc, self.fps, size)
+        writer = cv2.VideoWriter(f"{self.output}.mp4", fourcc, self.fps, self.resolution)
 
         if self.progress_bar:
             pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1)

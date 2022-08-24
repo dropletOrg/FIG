@@ -1,3 +1,4 @@
+import fractions
 import cv2
 import numpy as np
 from pygifsicle import gifsicle
@@ -85,22 +86,34 @@ class Utils(object):
         return cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
 
     @staticmethod
-    def shit_optimize(filename: str) -> None:
-        gifsicle(sources=f"{filename}.gif", optimize=True, colors=256)
-
-    @staticmethod
     def morb_frame(
         frame: np.ndarray,
         text_overlay_image: Optional[Image.Image],
         width: Optional[int] = None,
         text: str = "",
+        dither: bool = False,
     ) -> np.ndarray:
 
         if width:
             frame = Utils.resize_frame(frame, width)
         if text != "":
             frame = Utils.caption_video(frame, text_overlay_image)
+        if dither:
+            frame = Utils.quantize_dither_frame(frame)
         return frame
+
+    @staticmethod
+    def quantize_dither_frame(frame: np.ndarray) -> np.ndarray:
+        frame = Utils.cv22pil(frame)
+        frame = frame.convert('P', colors=256, palette=Image.Palette.WEB, dither=Image.Dither.FLOYDSTEINBERG)
+        frame = frame.convert("RGB")
+        frame = Utils.pil2cv2(frame)
+        return frame
+                
+    
+    @staticmethod
+    def shit_optimize(filename: str) -> None:
+        gifsicle(sources=f"{filename}.gif", optimize=True, colors=256)
 
     @staticmethod
     def resize_frame(frame: np.ndarray, width: int) -> np.ndarray:
