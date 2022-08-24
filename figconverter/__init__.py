@@ -31,7 +31,7 @@ def video2gif(
         raise FileDoesNotExistError(f"File '{filename}' does not exist.")
         
     reader = Reader(filename, output, width, fps_reduction, dither, shit_optimize, text, text_style, progress_bar)
-    writer = Writer(filename, reader.frames, reader.resolution, quality, output, fps_reduction, shit_optimize, progress_bar)
+    writer = Writer(filename, reader.frames, reader.resolution, output, quality, fps_reduction, dither, shit_optimize, progress_bar)
     
     try:
         p = Process(target=reader.read_video, args=())
@@ -61,7 +61,7 @@ def gif2video(
         raise FileTypeError(f"File '{filename}' is not a gif.")
 
     reader = Reader(filename, output, width, fps_reduction, dither, shit_optimize, text, text_style, progress_bar)
-    writer = Writer(filename, reader.frames, reader.resolution, quality, output, fps_reduction, shit_optimize, progress_bar)
+    writer = Writer(filename, reader.frames, reader.resolution, output, quality, fps_reduction, dither, shit_optimize, progress_bar)
 
     try:
         p = Process(target=reader.read_video, args=())
