@@ -75,20 +75,19 @@ Comparison against [shitty online GIF conversion tools](https://www.onlineconver
 
 All GIFs are available in the ``gif_comparison`` folder for you to compare.
 
-Here is a table with information that was submitted in a survey.
+All of the information here was submitted in a survey.
 
-|                          | Time  | Size                                     | Quality | Easy To Use | Versatile             | Ads | Worked |
-|--------------------------|-------|------------------------------------------|---------|-------------|-----------------------|-----|--------|
-| FIG                      | 8s    | 15.3MB                                   | 9/10    | Yes         | Yes                   | 0   | Yes    |
-| ezgif.com                | 10s   | 16.4MB                                   | 8/10    | Yes         | Yes                   | 4   | Yes    |
-| cloudconvert.com         | 10s   | 5.17MB                                   | 4/10    | No          | No                    | 0   | Yes    |
-| veed.io                  |       |                                          |         |             |                       | 0   | No     |
-| image.online-convert.com | 13sec | 5.7MB                                    | 5/10    | Yes         | Kinda (no FPS option) | 3   | Yes    |
-| convertio.co             | 15sec | 46.8MB  (no option to change resolution) | 4/10    | Yes         | No                    | 2   | Yes    |
-| img2go.com               | 13sec | 5.7MB                                    | 5/10    | Yes         | No                    | 2   | Yes    |
-| create.vista.com         | 16sec | 14.4MB                                   | 8/10    | Yes         | Yes                   | 0   | Yes    |
-| onlineconverter.com      | 4sec  | 5.17MB                                   | 5/10    | Yes         | No                    | 3   | Yes    |
-
+|                          | Time         | Size                                     | Quality                | Easy To Use | Versatile             | Ads | Worked            |
+|--------------------------|--------------|------------------------------------------|------------------------|-------------|-----------------------|-----|-------------------|
+| FIG                      | 8s (Fastest) | 15.3MB                                   | 9/10 (Highest Quality) | Yes         | Yes (Most Versatile)  | 0   | Yes (Most Worked) |
+| ezgif.com                | 10s          | 16.4MB                                   | 8/10                   | Yes         | Yes                   | 4   | Yes               |
+| cloudconvert.com         | 10s          | 5.17MB (Smallest)                        | 4/10                   | No          | No                    | 0   | Yes               |
+| veed.io                  |              |                                          |                        |             |                       | 0   | No                |
+| image.online-convert.com | 13s          | 5.7MB                                    | 5/10                   | Yes         | Kinda (no FPS option) | 3   | Yes               |
+| convertio.co             | 15s          | 46.8MB  (No Option to Change Resolution) | 4/10                   | Yes         | No                    | 2   | Yes               |
+| img2go.com               | 13s          | 5.7MB                                    | 5/10                   | Yes         | No                    | 2   | Yes               |
+| create.vista.com         | 16s          | 14.4MB                                   | 8/10                   | Yes         | Yes                   | 0   | Yes               |
+| onlineconverter.com      | 8s           | 5.17MB (Smallest)                        | 5/10                   | No          | No                    | 3   | Yes               |  
 
 ## About Us
 We are a duo of independent university students and professional programmers who love contributing to the world of [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software). 
