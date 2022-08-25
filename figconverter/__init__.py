@@ -8,7 +8,7 @@ import os
 from .utils import Utils
 import subprocess
 
-__version__ = "2.5.0"
+__version__ = "2.5.1"
 
 
 class FileTypeError(Exception):
