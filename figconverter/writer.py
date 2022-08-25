@@ -1,4 +1,3 @@
-from tkinter import E
 import tqdm
 import imageio
 import sys
@@ -12,16 +11,16 @@ import math
 
 class Writer:
     def __init__(
-        self, 
-        filename: str,
-        frames: Queue,
-        resolution: Tuple,
-        output: Optional[str] = None, 
-        quality: bool = False,
-        fps_reduction: int = 1,
-        dither: bool = False,
-        shit_optimize = False, 
-        progress_bar: bool = False
+            self,
+            filename: str,
+            frames: Queue,
+            resolution: Tuple,
+            output: Optional[str] = None,
+            quality: bool = False,
+            fps_reduction: int = 1,
+            dither: bool = False,
+            shit_optimize=False,
+            progress_bar: bool = False,
     ):
         self.filename = filename
         self.frames = frames
@@ -35,18 +34,16 @@ class Writer:
         data = Utils.get_video_data(self.filename)
         self.fps = data["fps"]
         self.frame_count = data["frame_count"]
-        if fps_reduction > 0 and fps_reduction <= self.fps:
+        if 0 < fps_reduction <= self.fps:
             self.fps /= fps_reduction
             self.frame_count = math.ceil(self.frame_count / fps_reduction)
 
-        if self.output is None:
-            self.output = "".join(os.path.basename(self.filename).split('.')[:-1])
+        if not self.output:
+            self.output = Utils.get_output_name(self.filename)
 
     def write_gif(self) -> None:
         quantizer = 2
-        if self.quality:
-            quantizer = 0
-        if self.dither:
+        if self.quality or self.dither:
             quantizer = 0
         with imageio.get_writer(f"{self.output}.gif", mode='I', fps=self.fps, quantizer=quantizer) as writer:
             if self.progress_bar:
@@ -61,7 +58,7 @@ class Writer:
             sys.stdout.write('\n')
             sys.stdout.flush()
             pbar.close()
-        if self.shit_optimize: 
+        if self.shit_optimize:
             Utils.shit_optimize(self.output)
 
     def write_video(self) -> None:

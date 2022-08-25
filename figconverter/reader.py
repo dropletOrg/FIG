@@ -1,11 +1,11 @@
 import cv2
 from .utils import Utils
 import tqdm
-import imageio
 import sys
 from typing import Optional
 from multiprocessing import Queue
 import math
+from .text_style import TextStyle
 
 
 class Reader:
@@ -18,7 +18,7 @@ class Reader:
         dither: bool = False,
         shit_optimize: bool = False,
         text: str = "",
-        text_style: str = "top",
+        text_style: TextStyle = TextStyle.TOP,
         progress_bar: bool = False
     ):
         self.filename = filename
