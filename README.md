@@ -75,7 +75,7 @@ Comparison against [shitty online GIF conversion tools](https://www.onlineconver
 
 All GIFs are available in the ``gif_comparison`` folder for you to compare.
 
-Here is a table with information that was submitted in a survey.
+All of the information here was submitted in a survey.
 
 |                          | Time  | Size                                     | Quality | Easy To Use | Versatile             | Ads | Worked |
 |--------------------------|-------|------------------------------------------|---------|-------------|-----------------------|-----|--------|
