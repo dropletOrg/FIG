@@ -89,7 +89,6 @@ All of the information here was submitted in a survey.
 | create.vista.com         | 16sec | 14.4MB                                   | 8/10    | Yes         | Yes                   | 0   | Yes    |
 | onlineconverter.com      | 4sec  | 5.17MB                                   | 5/10    | Yes         | No                    | 3   | Yes    |
 
-
 ## About Us
 We are a duo of independent university students and professional programmers who love contributing to the world of [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software). 
 Our goal is to improve our skills as developers and to make the world a better place by replacing [shitty online GIF conversion tools](https://www.onlineconverter.com/) with [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software).
