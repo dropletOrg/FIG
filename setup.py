@@ -1,5 +1,6 @@
 from setuptools import setup
 from pathlib import Path
+import figconverter
 
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
@@ -9,7 +10,7 @@ setup(
     description='A python package and CLI to turn videos into GIFs and vice-versa.',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    version='2.0.0-beta',
+    version=figconverter.__version__,
     license='MIT',
     author="blahberi, kamoodi",
     author_email='droplet.org@gmail.com',
