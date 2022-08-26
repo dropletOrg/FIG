@@ -7,7 +7,7 @@ A powerful, versatile and simplistic [FOSS](https://en.wikipedia.org/wiki/Free_a
 ![GitHub](https://img.shields.io/badge/-WORKING_2019!!!-97CA00?logo=Checkmarx&logoColor=white)
 ![GitHub](https://img.shields.io/badge/-NOT_CLICKBAIT!!!-cc3300?logo=radar&logoColor=white)
 
-<img src="README-data/unleash.gif"/>
+<img src="https://raw.githubusercontent.com/dropletOrg/FIG/main/README-data/unleash.gif"/>
 
 ## Usage
 You can use FIG's built-in CLI to convert videos to GIFs through the Command-Line.
