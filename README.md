@@ -11,24 +11,24 @@ A powerful, versatile and simplistic [FOSS](https://en.wikipedia.org/wiki/Free_a
 You can use FIG's built-in CLI to convert videos to GIFs through the Command-Line.
 
 ```
-Usage: fig.py [OPTIONS] FILENAME                                              
-                                                                              
-Options:                                                                      
-  -o, --output TEXT               Output filename                             
-  -g2v, --gif2video               Convert a gif to a video                    
-  -w, --width INTEGER             Width of the gif (must be 16 or bigger)     
-  -fr, --fps-reduction INTEGER    divide fps by this number (must be bigger   
+Usage: fig.py [OPTIONS] FILENAME
+
+Options:
+  -o, --output TEXT               Output filename
+  -g2v, --gif2video               Convert a gif to a video
+  -w, --width INTEGER             Width of the gif (must be 16 or bigger)
+  -fr, --fps-reduction INTEGER    Divide fps by this number (must be bigger
                                   than 0 and can't be bigger than the original
-                                  fps)                                        
-  -q, --quality                   prioritize quality over speed and size      
-  -d, --dither                    Apply dither to increase quality increase   
-                                  quality                                     
+                                  fps)
+  -lq, --low-quality              Prioritize speed and size over qualiry
+  -dd, --disable-dither           Apply dither to increase quality increase
+                                  quality (disables low-quality)
   -so, --shit-optimize            Optimize the gif but change it to 256 colors
-                                  (requires gifsicle)                         
-  -f, --ffmpeg                    Use ffmpeg for higher quality conversion (requires ffmpeg) 
-                                  (enables dithering)                         
-  -t, --text TEXT                 Text to add to the gif                      
-  -ts, --text-style [top|bottom|caption]                                      
+                                  (requires gifsicle)
+  -f, --ffmpeg                    Use ffmpeg for higher quality conversion
+                                  (requires ffmpeg) (enables dithering)
+  -t, --text TEXT                 Text to add to the gif
+  -ts, --text-style [top|bottom|caption]
                                   Style of text to add to the gif
   -v, --version                   Show the version and exit.
   --help                          Show this message and exit.
