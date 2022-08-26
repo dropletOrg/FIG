@@ -7,30 +7,32 @@ A powerful, versatile and simplistic [FOSS](https://en.wikipedia.org/wiki/Free_a
 ![GitHub](https://img.shields.io/badge/-WORKING_2019!!!-97CA00?logo=Checkmarx&logoColor=white)
 ![GitHub](https://img.shields.io/badge/-NOT_CLICKBAIT!!!-cc3300?logo=radar&logoColor=white)
 
+<img src="README-data/unleash.gif"/>
+
 ## Usage
 You can use FIG's built-in CLI to convert videos to GIFs through the Command-Line.
 
 ```
-Usage: fig.py [OPTIONS] FILENAME
-
-Options:
-  -o, --output TEXT               Output filename
-  -g2v, --gif2video               Convert a gif to a video (options:
-                                  dithering, low-quality, shit-optimize,
-                                  ffmpeg. are disabled)
-  -w, --width INTEGER             Width of the gif (must be 16 or bigger)
-  -fr, --fps-reduction INTEGER    Divide fps by this number (must be bigger
+Usage: fig.py [OPTIONS] FILENAME                                              
+                                                                              
+Options:                                                                      
+  -o, --output TEXT               Output filename                             
+  -g2v, --gif2video               Convert a gif to a video (options:          
+                                  dithering, low-quality, shit-optimize,      
+                                  ffmpeg are disabled)                        
+  -w, --width INTEGER             Width of the gif (must be 16 or bigger)     
+  -fr, --fps-reduction INTEGER    Divide fps by this number (must be bigger   
                                   than 0 and can't be bigger than the original
-                                  fps)
-  -lq, --low-quality              Prioritize speed and size over qualiry
-  -dd, --disable-dither           Apply dither to increase quality increase
-                                  quality (disables low-quality)
+                                  fps)                                        
+  -lq, --low-quality              Prioritize speed and size over quality      
+  -dd, --disable-dither           Disable dither to increase quality but cause
+                                  color banding (disables low-quality)        
   -so, --shit-optimize            Optimize the gif but change it to 256 colors
-                                  (requires gifsicle)
-  -f, --ffmpeg                    Use ffmpeg for higher quality conversion
-                                  (requires ffmpeg) (enables dithering)
-  -t, --text TEXT                 Text to add to the gif
-  -ts, --text-style [top|bottom|caption]
+                                  (requires gifsicle)                         
+  -f, --ffmpeg                    Use ffmpeg for higher quality conversion    
+                                  (requires ffmpeg) (enables dithering)       
+  -t, --text TEXT                 Text to add to the gif                      
+  -ts, --text-style [top|bottom|caption]                                      
                                   Style of text to add to the gif
   -v, --version                   Show the version and exit.
   --help                          Show this message and exit.
@@ -79,17 +81,17 @@ All GIFs are available in the ``gif_comparison`` folder for you to compare.
 
 All of the information here was submitted in a survey.
 
-|                          | Time         | Size                                     | Quality                | Easy To Use | Versatile             | Ads | Worked            |
-|--------------------------|--------------|------------------------------------------|------------------------|-------------|-----------------------|-----|-------------------|
-| FIG                      | 8s (Fastest) | 15.3MB                                   | 9/10 (Highest Quality) | Yes         | Yes (Most Versatile)  | 0   | Yes (Most Worked) |
-| ezgif.com                | 10s          | 16.4MB                                   | 8/10                   | Yes         | Yes                   | 4   | Yes               |
-| cloudconvert.com         | 10s          | 5.17MB (Smallest)                        | 4/10                   | No          | No                    | 0   | Yes               |
-| veed.io                  |              |                                          |                        |             |                       | 0   | No                |
-| image.online-convert.com | 13s          | 5.7MB                                    | 5/10                   | Yes         | Kinda (no FPS option) | 3   | Yes               |
-| convertio.co             | 15s          | 46.8MB  (No Option to Change Resolution) | 4/10                   | Yes         | No                    | 2   | Yes               |
-| img2go.com               | 13s          | 5.7MB                                    | 5/10                   | Yes         | No                    | 2   | Yes               |
-| create.vista.com         | 16s          | 14.4MB                                   | 8/10                   | Yes         | Yes                   | 0   | Yes               |
-| onlineconverter.com      | 8s           | 5.17MB (Smallest)                        | 5/10                   | No          | No                    | 3   | Yes               |  
+|                          | Time         | Size                                               | Quality                | Easy To Use | Versatile             | Ads | Worked            |
+|--------------------------|--------------|----------------------------------------------------|------------------------|-------------|-----------------------|-----|-------------------|
+| FIG                      | 8s (Fastest) | 15.3MB (With Certain Settings FIG Can Reach 5.7MB) | 9/10 (Highest Quality) | Yes         | Yes (Most Versatile)  | 0   | Yes (Most Worked) |
+| ezgif.com                | 10s          | 16.4MB                                             | 8/10                   | Yes         | Yes                   | 4   | Yes               |
+| cloudconvert.com         | 10s          | 5.17MB (Smallest)                                  | 4/10                   | No          | No                    | 0   | Yes               |
+| veed.io                  |              |                                                    |                        |             |                       | 0   | No                |
+| image.online-convert.com | 13s          | 5.7MB                                              | 5/10                   | Yes         | Kinda (no FPS option) | 3   | Yes               |
+| convertio.co             | 15s          | 46.8MB (No Option to Change Resolution)            | 4/10                   | Yes         | No                    | 2   | Yes               |
+| img2go.com               | 13s          | 5.7MB                                              | 5/10                   | Yes         | No                    | 2   | Yes               |
+| create.vista.com         | 16s          | 14.4MB                                             | 8/10                   | Yes         | Yes                   | 0   | Yes               |
+| onlineconverter.com      | 8s           | 5.17MB (Smallest)                                  | 4/10                   | No          | No                    | 3   | Yes               |  
 
 ## About Us
 We are a duo of independent university students and professional programmers who love contributing to the world of [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software). 

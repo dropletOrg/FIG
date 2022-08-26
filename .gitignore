@@ -132,6 +132,7 @@ dmypy.json
 *.gif
 *.mp4
 !gif_comparison/*
+!README-data/*
 
 
 # .idea
