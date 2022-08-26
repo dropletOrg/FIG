@@ -93,14 +93,14 @@ class Utils(object):
             text_overlay_image: Optional[Image.Image],
             width: Optional[int] = None,
             text: str = "",
-            dither: bool = False,
+            disable_dither: bool = False,
     ) -> np.ndarray:
 
         if width:
             frame = Utils.resize_frame(frame, width)
         if text != "":
             frame = Utils.caption_video(frame, text_overlay_image)
-        if dither:
+        if not disable_dither:
             frame = Utils.quantize_dither_frame(frame)
         return frame
 
