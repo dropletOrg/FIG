@@ -7,7 +7,7 @@ from figconverter.text_style import TextStyle
 @click.command()
 @click.argument('filename', type=click.Path(exists=True))
 @click.option('-o', '--output', help='Output filename')
-@click.option('-g2v', '--gif2video', default=False, is_flag=True, help='Convert a gif to a video')
+@click.option('-g2v', '--gif2video', default=False, is_flag=True, help='Convert a gif to a video (options: dithering, low-quality, shit-optimize, ffmpeg. are disabled)')
 @click.option('-w', '--width', help='Width of the gif (must be 16 or bigger)', type=int)
 @click.option('-fr', '--fps-reduction', default=1,
               help="Divide fps by this number (must be bigger than 0 and can't be bigger than the original fps)",
@@ -27,8 +27,7 @@ def main(filename, gif2video, output, width, fps_reduction, low_quality, disable
     if gif2video:
         if filename[-4:] != ".gif":
             raise click.BadParameter(f"File '{filename}' is not a gif.", param_hint='FILENAME')
-        figconverter.gif2video(filename, output, width, fps_reduction, low_quality, disable_dither, shit_optimize, text,
-                               TextStyle(text_style), True)
+        figconverter.gif2video(filename, output, width, fps_reduction, text, TextStyle(text_style), True)
         return
 
     figconverter.video2gif(filename, output, width, fps_reduction, low_quality, disable_dither, shit_optimize, ffmpeg, text,

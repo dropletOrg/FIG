@@ -15,7 +15,9 @@ Usage: fig.py [OPTIONS] FILENAME
 
 Options:
   -o, --output TEXT               Output filename
-  -g2v, --gif2video               Convert a gif to a video
+  -g2v, --gif2video               Convert a gif to a video (options:
+                                  dithering, low-quality, shit-optimize,
+                                  ffmpeg. are disabled)
   -w, --width INTEGER             Width of the gif (must be 16 or bigger)
   -fr, --fps-reduction INTEGER    Divide fps by this number (must be bigger
                                   than 0 and can't be bigger than the original

@@ -7,7 +7,7 @@ import os
 from .utils import Utils
 import subprocess
 
-__version__ = "2.6.1"
+__version__ = "2.7.0"
 
 
 class FileTypeError(Exception):
@@ -130,9 +130,6 @@ def gif2video(
         output: Optional[str] = None,
         width: Optional[int] = None,
         fps_reduction: int = 1,
-        low_quality: bool = False,
-        disable_dither: bool = False,
-        shit_optimize: bool = False,
         text: str = "",
         text_style: TextStyle = TextStyle.TOP,
         progress_bar: bool = False
@@ -142,7 +139,7 @@ def gif2video(
     if filename[-4:] != ".gif":
         raise FileTypeError(f"File '{filename}' is not a gif.")
 
-    reader, writer = __get_reader_writer(filename, output, width, fps_reduction, low_quality, disable_dither, shit_optimize, text,
+    reader, writer = __get_reader_writer(filename, output, width, fps_reduction, False, True, False, text,
                                          text_style, progress_bar)
 
     try:
