@@ -9,8 +9,10 @@ from .text_style import TextStyle
 
 
 class Utils(object):
+    @staticmethod
     def get_output_name(filename: str) -> str:
         return "".join(os.path.basename(filename).split('.')[:-1])
+
     @staticmethod
     def get_video_data(filename: str) -> Dict:
         cap = cv2.VideoCapture(filename)
@@ -53,7 +55,7 @@ class Utils(object):
         if text_style == TextStyle.CAPTION:
             top_margin = draw.textsize(text, font=font)[1] + y * 2
             new_resolution = (frame.width, frame.height + top_margin)
-            new_frame = Image.new(frame.mode, new_resolution, (255, 255, 255))
+            new_frame = Image.new("RGB", new_resolution, (255, 255, 255))
             new_frame.paste(frame, (0, top_margin))
             frame = new_frame
             draw = ImageDraw.Draw(frame)
