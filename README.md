@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/dropletOrg/FIG/main/logo/logo_with_more_text.svg" width=240>
+<img src="https://raw.githubusercontent.com/dropletOrg/FIG/main/logo/logo_with_more_text.svg" width=480>
 
 A powerful, versatile and simplistic [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) python package and CLI to turn videos into GIFs and vice-versa.
 
