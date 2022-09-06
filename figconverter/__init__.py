@@ -7,7 +7,7 @@ import os
 from .utils import Utils
 import subprocess
 
-__version__ = "2.7.1"
+__version__ = "2.8.0"
 
 
 class FileTypeError(Exception):
@@ -101,7 +101,7 @@ def video2gif(
 
         command = f'ffmpeg -i temp.mp4 -y {output}.gif'
         if not low_quality:
-            command = f'ffmpeg -i temp.mp4 -vf "split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse=dither=floyd_steinberg" -y {output}.gif'
+            command = f'ffmpeg -i temp.mp4 -vf "split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse=dither=floyd_steinberg" -y "{output}.gif"'
         subprocess.call(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         if shit_optimize:
