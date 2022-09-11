@@ -2,7 +2,7 @@ import tqdm
 import imageio
 import sys
 from typing import Tuple, Optional
-from .utils import Utils
+import fig.utils
 import cv2
 import os
 from multiprocessing import Queue
@@ -31,7 +31,7 @@ class Writer:
         self.shit_optimize = shit_optimize
         self.progress_bar = progress_bar
 
-        data = Utils.get_video_data(self.filename)
+        data = fig.utils.get_video_data(self.filename)
         self.fps = data["fps"]
         self.frame_count = data["frame_count"]
         if 0 < fps_reduction <= self.fps:
@@ -39,7 +39,7 @@ class Writer:
             self.frame_count = math.ceil(self.frame_count / fps_reduction)
 
         if not self.output:
-            self.output = Utils.get_output_name(self.filename)
+            self.output = fig.utils.get_output_name(self.filename)
 
     def write_gif(self) -> None:
         quantizer = 0
@@ -47,7 +47,7 @@ class Writer:
             quantizer = 2
         with imageio.get_writer(f"{self.output}.gif", mode='I', fps=self.fps, quantizer=quantizer) as writer:
             if self.progress_bar:
-                pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1)
+                pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1, ncols=125)
             for i in range(self.frame_count):
                 frame = self.frames.get()
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -59,7 +59,7 @@ class Writer:
             sys.stdout.flush()
             pbar.close()
         if self.shit_optimize:
-            Utils.shit_optimize(self.output)
+            fig.utils.shit_optimize(self.output)
 
     def write_video(self) -> None:
         while not self.frames:
@@ -69,7 +69,7 @@ class Writer:
         writer = cv2.VideoWriter(f"{self.output}.mp4", fourcc, self.fps, self.resolution)
 
         if self.progress_bar:
-            pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1)
+            pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1, ncols=125)
         for i in range(self.frame_count):
             frame = self.frames.get()
             writer.write(frame)

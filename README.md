@@ -14,7 +14,7 @@ A powerful, versatile and simplistic [FOSS](https://en.wikipedia.org/wiki/Free_a
 You can use FIG's built-in CLI to convert videos to GIFs through the Command-Line.
 
 ```
-Usage: fig.py [OPTIONS] FILENAME                                              
+Usage: fig [OPTIONS] FILENAME                                              
                                                                               
 Options:                                                                      
   -o, --output TEXT               Output filename                             
@@ -41,10 +41,10 @@ Options:
 Or you could use FIG as a Python package.
 
 ```python
-import figconverter
+import fig
 
-figconverter.video2gif("myvideo.mp4")  # Convert video to GIF
-figconverter.gif2video("myvideo.gif")  # Convert GIF to video
+fig.video2gif("myvideo.mp4")  # Convert video to GIF
+fig.gif2video("myvideo.gif")  # Convert GIF to video
 ```
 
 ## Installation

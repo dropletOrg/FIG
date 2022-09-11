@@ -4,10 +4,10 @@ from .text_style import TextStyle
 from multiprocessing import Process
 from typing import Optional, Tuple
 import os
-from .utils import Utils
+import fig.utils
 import subprocess
 
-__version__ = "2.8.0"
+__version__ = "2.9.0"
 
 
 class FileTypeError(Exception):
@@ -94,7 +94,7 @@ def video2gif(
 ) -> None:
     if is_ffmpeg:
         if not output:
-            output = Utils.get_output_name(filename)
+            output = fig.utils.get_output_name(filename)
 
         video2video(filename, "temp", width, fps_reduction, low_quality, True, shit_optimize, text,
                     text_style, progress_bar)
@@ -105,7 +105,7 @@ def video2gif(
         subprocess.call(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         if shit_optimize:
-            Utils.shit_optimize(output)
+            fig.utils.shit_optimize(output)
 
         os.remove("temp.mp4")
         return

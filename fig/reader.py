@@ -1,5 +1,5 @@
 import cv2
-from .utils import Utils
+import fig.utils
 import tqdm
 import sys
 from typing import Optional
@@ -31,7 +31,7 @@ class Reader:
         self.text_style = text_style
         self.progress_bar = progress_bar
 
-        data = Utils.get_video_data(self.filename)
+        data = fig.utils.get_video_data(self.filename)
         self.frame_count = data['frame_count']
         self.resolution = data['resolution']
 
@@ -39,7 +39,7 @@ class Reader:
             self.fps_reduction = 1
         self.frame_count = math.ceil(self.frame_count / self.fps_reduction)
 
-        self.text_overlay_image = Utils.create_text_overlay(self.resolution, text, width, text_style)
+        self.text_overlay_image = fig.utils.create_text_overlay(self.resolution, text, width, text_style)
         self.resolution = self.text_overlay_image[2][0]
 
         self.frames = Queue(self.frame_count)
@@ -47,7 +47,7 @@ class Reader:
     def read_video(self) -> None:
         cap = cv2.VideoCapture(self.filename)
         if self.progress_bar:
-            pbar = tqdm.tqdm(total=self.frame_count, desc='Reading and processing frames', position=0)
+            pbar = tqdm.tqdm(total=self.frame_count, desc='Reading and processing frames', position=0, ncols=125)
         i = -1
         while cap.isOpened():
             frame = cap.read()[1]
@@ -56,7 +56,7 @@ class Reader:
                 if i % self.fps_reduction != 0:
                     continue
 
-                frame = Utils.morb_frame(  # process frames
+                frame = fig.utils.morb_frame(  # process frames
                     frame, 
                     self.text_overlay_image, 
                     self.width, 
