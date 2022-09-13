@@ -1,11 +1,45 @@
+import random
+import click
+import importlib.resources as pkg_resources
 from typing import Dict, Tuple, Optional
 import cv2
 import more_itertools
 import numpy as np
+import requests
+import tldextract
+import yt_dlp
 from PIL import ImageFont, ImageDraw, Image
 from pygifsicle import gifsicle
 import os
+
+import fig
 from .text_style import TextStyle
+from .yt_dlp_filename_collector import FilenameCollectorPP
+
+
+def show_logo() -> None:
+    motd = ["It's pronounced GIF",
+            '"Stop misquoting me"\n -Albert Einstein',
+            '"A delayed game is eventually bad, but a rushed game is forever bad. I hate games."\n -Shigeru Miyamoto',
+            '"I am a fig"\n -fig',
+            '"I am become fig, destroyer of ezgif.com"\n -J. Robert Oppenheimer',
+            '"That’s what the kids call "epic fail""\n -Saul Goodman',
+            '"Waltuh, put your dick away Waltuh. I’m not having sex with you right now."\n -Finger',
+            '"You should kill yourself, NOW"\n -Dalauan Sparrow',
+            "Fun Fact: Figs are very moist",
+            '"That means that as a human being you should have a right to water. That’s an extreme solution."\n -Peter Brabeck-Letmathe',
+            '"We will coup whoever we want! Deal with it."\n -Elon Musk',
+            ]
+    fig_font = pkg_resources.read_text(__package__, "fig_ascii_font.txt")
+    centered_fig_font = []
+    for i in fig_font.split("\n"):
+        centered_fig_font.append(i.center(40))
+    centered_fig_font = "\n".join(centered_fig_font)
+    click.secho(centered_fig_font, fg='bright_blue')
+    click.echo(pkg_resources.read_text(__package__, "logo_ascii_art.txt"))
+    click.secho(f"{random.choice(motd)}\n", fg=random.choice(
+        ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'bright_red', 'bright_green', 'bright_yellow',
+         'bright_blue', 'bright_magenta', 'bright_cyan']))
 
 
 def get_output_name(filename: str) -> str:
@@ -156,3 +190,53 @@ def __overlay_text(frame: np.ndarray, text_overlay_image: Image.Image) -> np.nda
         return pil2cv2(frame)
     frame.paste(text_overlay_image[0], (0, 0), text_overlay_image[0])
     return pil2cv2(frame)
+
+
+def download_video(url: str, filename: str) -> None:
+    content_type = requests.head(url).headers.get("content-type")
+    if content_type.split('/')[0] != "video":
+        raise fig.FileTypeError("File in url is not a video")
+    with open(f"{filename}", "wb") as f:
+        f.write(requests.get(url).content)
+
+
+def download_youtube(search: str, filename: str) -> None:
+    filename_collector = FilenameCollectorPP()
+    with yt_dlp.YoutubeDL({'quiet': True, 'default_search': 'auto', 'outtmpl': filename, 'noprogress': True}) as ydl:
+        ydl.add_post_processor(filename_collector)
+        ydl.download(search)
+    if not filename_collector.filenames:
+        raise fig.NoResults("No results found")
+    os.rename(filename_collector.filenames[0], filename)
+
+
+def download_tenor_search(search: str, filename: str, api_key: str, client_key: str) -> None:
+    r = requests.get(
+        f"https://tenor.googleapis.com/v2/search?q={search}&key={api_key}&client_key={client_key}&limit=1&media_filter=mp4")
+    if r.status_code == 200:
+        r = r.json()
+        if r["results"]:
+            download_video(r['results'][0]['media_formats']['mp4']['url'], filename)
+            return
+    raise fig.NoResults("No results found")
+
+
+def download_tenor_url(url: str, filename: str, api_key: str, client_key: str) -> None:
+    r = requests.get(
+        f"https://tenor.googleapis.com/v2/posts?ids={url.split('-')[-1]}&key={api_key}&client_keys={client_key}&limit=1&media_filter=mp4")
+    if r.status_code == 200:
+        r = r.json()
+        if r["results"]:
+            download_video(r['results'][0]['media_formats']['mp4']['url'], filename)
+
+
+def download(search: str, output: str, service: str, api_key: str, client_key: str) -> None:
+    if service == "tenor":
+        if tldextract.extract(search).domain == "tenor":
+            download_tenor_url(search, output, api_key, client_key)
+        else:
+            download_tenor_search(search, output, api_key, client_key)
+    elif service == "youtube":
+        download_youtube(search, output)
+    else:
+        download_video(search, output)

@@ -19,7 +19,7 @@ class Reader:
         shit_optimize: bool = False,
         text: str = "",
         text_style: TextStyle = TextStyle.TOP,
-        progress_bar: bool = False
+        verbose: bool = False
     ):
         self.filename = filename
         self.output = output
@@ -29,7 +29,7 @@ class Reader:
         self.shit_optimize = shit_optimize
         self.text = text
         self.text_style = text_style
-        self.progress_bar = progress_bar
+        self.verbose = verbose
 
         data = fig.utils.get_video_data(self.filename)
         self.frame_count = data['frame_count']
@@ -46,7 +46,7 @@ class Reader:
 
     def read_video(self) -> None:
         cap = cv2.VideoCapture(self.filename)
-        if self.progress_bar:
+        if self.verbose:
             pbar = tqdm.tqdm(total=self.frame_count, desc='Reading and processing frames', position=0, ncols=125)
         i = -1
         while cap.isOpened():
@@ -66,12 +66,12 @@ class Reader:
 
                 self.frames.put(frame)
 
-                if self.progress_bar:
+                if self.verbose:
                     pbar.update(1)
             else:
                 break
         
-        if self.progress_bar:
+        if self.verbose:
             pbar.close()
             sys.stdout.write('\x1b[1A')
             sys.stdout.flush()

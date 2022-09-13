@@ -18,7 +18,7 @@ setup(
     include_package_data=True,
     py_modules=["fig"],
     url='https://github.com/dropletOrg/FIG',
-    install_requires=['opencv-python', 'numpy', 'pillow', 'click', 'tqdm', 'pygifsicle', 'more-itertools', 'imageio'],
-    entry_points={'console_scripts': ['fig = fig.scripts.fig:main']},
+    install_requires=['opencv-python', 'numpy', 'Pillow', 'click', 'tqdm', 'pygifsicle', 'more-itertools', 'imageio', 'requests', 'yt-dlp', 'tldextract'],
+    entry_points={'console_scripts': ['fig = fig.scripts.fig:main', 'fig-download = fig.scripts.fig_download:main']},
     keywords='convert converter video gif fig pyfig figpy python-fig fig-python py-fig fig-py caption text edit editor cli package command command-line gif-convert gif-converter tool gif-tool gif-editor gif-editor-tool',
 )
