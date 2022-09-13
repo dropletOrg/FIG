@@ -1,10 +1,10 @@
+import click
 import tqdm
 import imageio
 import sys
 from typing import Tuple, Optional
 import fig.utils
 import cv2
-import os
 from multiprocessing import Queue
 import math
 
@@ -20,7 +20,7 @@ class Writer:
             fps_reduction: int = 1,
             disable_dither: bool = False,
             shit_optimize=False,
-            progress_bar: bool = False,
+            verbose: bool = False,
     ):
         self.filename = filename
         self.frames = frames
@@ -29,7 +29,7 @@ class Writer:
         self.output = output
         self.disable_dither = disable_dither
         self.shit_optimize = shit_optimize
-        self.progress_bar = progress_bar
+        self.verbose = verbose
 
         data = fig.utils.get_video_data(self.filename)
         self.fps = data["fps"]
@@ -46,19 +46,21 @@ class Writer:
         if self.low_quality and self.disable_dither:
             quantizer = 2
         with imageio.get_writer(f"{self.output}.gif", mode='I', fps=self.fps, quantizer=quantizer) as writer:
-            if self.progress_bar:
+            if self.verbose:
                 pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1, ncols=125)
             for i in range(self.frame_count):
                 frame = self.frames.get()
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 writer.append_data(frame)
-                if self.progress_bar:
+                if self.verbose:
                     pbar.update(1)
-        if self.progress_bar:
+        if self.verbose:
             sys.stdout.write('\n')
             sys.stdout.flush()
             pbar.close()
         if self.shit_optimize:
+            if self.verbose:
+                click.echo("Optimizing GIF...")
             fig.utils.shit_optimize(self.output)
 
     def write_video(self) -> None:
@@ -68,14 +70,14 @@ class Writer:
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         writer = cv2.VideoWriter(f"{self.output}.mp4", fourcc, self.fps, self.resolution)
 
-        if self.progress_bar:
+        if self.verbose:
             pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1, ncols=125)
         for i in range(self.frame_count):
             frame = self.frames.get()
             writer.write(frame)
-            if self.progress_bar:
+            if self.verbose:
                 pbar.update(1)
-        if self.progress_bar:
+        if self.verbose:
             sys.stdout.write('\n')
             sys.stdout.flush()
             pbar.close()
