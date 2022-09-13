@@ -8,7 +8,7 @@ import fig.utils
 import subprocess
 import click
 
-__version__ = "2.9.5"
+__version__ = "2.9.6"
 
 
 class FileTypeError(Exception):

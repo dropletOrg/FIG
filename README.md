@@ -38,6 +38,33 @@ Options:
   -v, --version                   Show the version and exit.
   --help                          Show this message and exit.
 ```
+```
+Usage: fig-download [OPTIONS] SEARCH                                       
+                                                                              
+Options:                                                                      
+  -s, --service [tenor|youtube|other]                                         
+                                  Service to download from                    
+  -o, --output TEXT               Output filename                             
+  -ak, --api-key TEXT             API key for Tenor                           
+  -c2v, --convert2video           Convert to a video (options: disable-dither,
+                                  shit-optimize, ffmpeg are disabled)         
+  -w, --width INTEGER             Width of the gif (must be 16 or bigger)     
+  -fr, --fps-reduction INTEGER    Divide fps by this number (must be bigger   
+                                  than 0 and can't be bigger than the original
+                                  fps)                                        
+  -lq, --low-quality              Prioritize speed and size over quality      
+  -dd, --disable-dither           Disable dither to increase quality but cause
+                                  color banding (disables low-quality)        
+  -so, --shit-optimize            Optimize the gif but change it to 256 colors
+                                  (requires gifsicle)                         
+  -f, --ffmpeg                    Use ffmpeg for higher quality conversion    
+                                  (requires ffmpeg) (enables dithering)       
+  -t, --text TEXT                 Text to add to the gif                      
+  -ts, --text-style [top|bottom|caption]                                      
+                                  Style of text to add to the gif             
+  -v, --version                   Show the version and exit.                  
+  --help                          Show this message and exit.
+```
 Or you could use FIG as a Python package.
 
 ```python
@@ -109,6 +136,9 @@ Our goal is to improve our skills as developers and to make the world a better p
 - [tqdm](https://github.com/tqdm/tqdm) (Special Thanks! Made Our CLI SOO Much Better)
 - [imageio](https://github.com/imageio/imageio) (Special Thanks! Cheers)
 - [FFmpeg](https://github.com/FFmpeg/FFmpeg) (Special Thanks! Amazing Project)
+- [requests](https://github.com/psf/requests) (Special Thanks! The Simplest Web Library!)
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) (Special Thanks! The Best youtube-dl Fork!)
+- [tldextract](https://github.com/john-kurkowski/tldextract) (Special Thanks! Amazing Library!)
 - [cpython](https://github.com/python/cpython) (Special Thanks! Couldn't Have Done This Without You)
 - [FIG](https://github.com/dropletOrg/FIG) (Super Mega Special Special Thanks!!! One Of The Best [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) Projects Out There)
   
