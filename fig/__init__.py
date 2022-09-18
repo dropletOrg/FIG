@@ -8,7 +8,7 @@ import fig.utils
 import subprocess
 import click
 
-__version__ = "2.9.6"
+__version__ = "2.9.7"
 
 
 class FileTypeError(Exception):
@@ -46,7 +46,7 @@ def __get_reader_writer(
 def download2gif(
         search: str,
         service: str = "tenor",
-        output: Optional[str] = None,
+        output: str = "Output",
         api_key: Optional[str] = "AIzaSyC3EOB__h0pNIWlPTh8MaunVK4McfErjfo",
         width: Optional[int] = None,
         fps_reduction: int = 1,
@@ -58,12 +58,11 @@ def download2gif(
         text_style: TextStyle = TextStyle.TOP,
         verbose: bool = False
 ) -> None:
-    if output is None:
-        output = search
     if verbose:
         click.echo("Downloading gif...")
-    fig.utils.download(search, "temp", service, api_key, "fig")
-    video2gif("temp", output, width, fps_reduction, low_quality, disable_dither, shit_optimize, is_ffmpeg, text, text_style, verbose)
+        fig.utils.download(search, "temp", service, api_key, "fig", verbose)
+        video2gif("temp", output, width, fps_reduction, low_quality, disable_dither, shit_optimize, is_ffmpeg, text,
+                  text_style, verbose)
     os.remove("temp")
 
 
@@ -84,7 +83,7 @@ def download2video(
         output = search
     if verbose:
         click.echo("Downloading gif...")
-    fig.utils.download(search, "temp", service, api_key, "fig")
+    fig.utils.download(search, "temp", service, api_key, "fig", verbose)
     video2video("temp", output, width, fps_reduction, low_quality, disable_dither, text, text_style, verbose)
     os.remove("temp")
 
@@ -107,8 +106,8 @@ def video2video(
                                          False, text,
                                          text_style, verbose)
 
+    p = Process(target=reader.read_video, args=())
     try:
-        p = Process(target=reader.read_video, args=())
         p.start()
         writer.write_video()
         p.join()
@@ -175,8 +174,8 @@ def video2gif(
                                          shit_optimize, text,
                                          text_style, verbose)
 
+    p = Process(target=reader.read_video, args=())
     try:
-        p = Process(target=reader.read_video, args=())
         p.start()
         writer.write_gif()
         p.join()
@@ -201,8 +200,8 @@ def gif2video(
     reader, writer = __get_reader_writer(filename, output, width, fps_reduction, False, True, False, text,
                                          text_style, verbose)
 
+    p = Process(target=reader.read_video, args=())
     try:
-        p = Process(target=reader.read_video, args=())
         p.start()
         writer.write_video()
         p.join()
