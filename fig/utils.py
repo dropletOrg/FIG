@@ -11,7 +11,8 @@ import yt_dlp
 from PIL import ImageFont, ImageDraw, Image
 from pygifsicle import gifsicle
 import os
-
+import datetime
+import art
 import fig
 from .text_style import TextStyle
 from .yt_dlp_filename_collector import FilenameCollectorPP
@@ -30,16 +31,20 @@ def show_logo() -> None:
             '"That means that as a human being you should have a right to water. That’s an extreme solution."\n -Peter Brabeck-Letmathe',
             '"We will coup whoever we want! Deal with it."\n -Elon Musk',
             ]
-    fig_font = pkg_resources.read_text(__package__, "fig_ascii_font.txt")
+
+    colors = ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'bright_red', 'bright_green', 'bright_yellow',
+              'bright_blue', 'bright_magenta', 'bright_cyan']
+
+    fig_font = art.text2art("FIG", "random")
     centered_fig_font = []
     for i in fig_font.split("\n"):
         centered_fig_font.append(i.center(40))
     centered_fig_font = "\n".join(centered_fig_font)
+    logo_color = random.choice(colors)
+    colors.remove(logo_color)
     click.secho(centered_fig_font, fg='bright_blue')
     click.echo(pkg_resources.read_text(__package__, "logo_ascii_art.txt"))
-    click.secho(f"{random.choice(motd)}\n", fg=random.choice(
-        ['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'bright_red', 'bright_green', 'bright_yellow',
-         'bright_blue', 'bright_magenta', 'bright_cyan']))
+    click.secho(f"{random.choice(motd)}\n", fg=random.choice(colors))
 
 
 def get_output_name(filename: str) -> str:
@@ -200,13 +205,27 @@ def download_video(url: str, filename: str) -> None:
         f.write(requests.get(url).content)
 
 
-def download_youtube(search: str, filename: str) -> None:
+def download_youtube(search: str, filename: str, verbose: bool = False) -> None:
     filename_collector = FilenameCollectorPP()
     with yt_dlp.YoutubeDL({'quiet': True, 'default_search': 'auto', 'outtmpl': filename, 'noprogress': True}) as ydl:
+        if verbose:
+            info_dict = ydl.extract_info(search, download=False)
+            if 'entries' in info_dict:
+                if info_dict['entries']:
+                    title = info_dict['entries'][0]['title']
+                    duration = info_dict['entries'][0]['duration']
+                else:
+                    raise fig.NoResults("No results found")
+            else:
+                title = info_dict['title']
+                duration = info_dict['duration']
+            click.secho(f"Downloading {title}, Duration {datetime.timedelta(seconds=duration)}", fg="yellow")
         ydl.add_post_processor(filename_collector)
         ydl.download(search)
     if not filename_collector.filenames:
         raise fig.NoResults("No results found")
+    if os.path.isfile(filename):
+        os.remove(filename)
     os.rename(filename_collector.filenames[0], filename)
 
 
@@ -230,13 +249,13 @@ def download_tenor_url(url: str, filename: str, api_key: str, client_key: str) -
             download_video(r['results'][0]['media_formats']['mp4']['url'], filename)
 
 
-def download(search: str, output: str, service: str, api_key: str, client_key: str) -> None:
+def download(search: str, output: str, service: str, api_key: str, client_key: str, verbose) -> None:
     if service == "tenor":
         if tldextract.extract(search).domain == "tenor":
             download_tenor_url(search, output, api_key, client_key)
         else:
             download_tenor_search(search, output, api_key, client_key)
     elif service == "youtube":
-        download_youtube(search, output)
+        download_youtube(search, output, verbose)
     else:
         download_video(search, output)

@@ -14,13 +14,13 @@ A powerful, versatile and simplistic [FOSS](https://en.wikipedia.org/wiki/Free_a
 You can use FIG's built-in CLI to convert videos to GIFs through the Command-Line.
 
 ```
-Usage: fig [OPTIONS] FILENAME                                              
+Usage: fig [OPTIONS] FILENAME                                          
                                                                               
 Options:                                                                      
   -o, --output TEXT               Output filename                             
-  -g2v, --gif2video               Convert a gif to a video (options:          
-                                  dithering, low-quality, shit-optimize,      
-                                  ffmpeg are disabled)                        
+  -g2v, --gif2video               Convert a gif to a video (options: disable- 
+                                  dither, low-quality, shit-optimize, ffmpeg  
+                                  are disabled)                               
   -w, --width INTEGER             Width of the gif (must be 16 or bigger)     
   -fr, --fps-reduction INTEGER    Divide fps by this number (must be bigger   
                                   than 0 and can't be bigger than the original
@@ -28,14 +28,14 @@ Options:
   -lq, --low-quality              Prioritize speed and size over quality      
   -dd, --disable-dither           Disable dither to increase quality but cause
                                   color banding (disables low-quality)        
-  -so, --shit-optimize            Optimize the gif but change it to 256 colors
+  -so, --shit-optimize            Optimize the gif but make it look bad       
                                   (requires gifsicle)                         
   -f, --ffmpeg                    Use ffmpeg for higher quality conversion    
                                   (requires ffmpeg) (enables dithering)       
   -t, --text TEXT                 Text to add to the gif                      
   -ts, --text-style [top|bottom|caption]                                      
-                                  Style of text to add to the gif
-  -v, --version                   Show the version and exit.
+                                  Style of text to add to the gif             
+  -v, --version                   Show the version and exit.                  
   --help                          Show this message and exit.
 ```
 ```
@@ -55,7 +55,7 @@ Options:
   -lq, --low-quality              Prioritize speed and size over quality      
   -dd, --disable-dither           Disable dither to increase quality but cause
                                   color banding (disables low-quality)        
-  -so, --shit-optimize            Optimize the gif but change it to 256 colors
+  -so, --shit-optimize            Optimize the gif but make it look bad       
                                   (requires gifsicle)                         
   -f, --ffmpeg                    Use ffmpeg for higher quality conversion    
                                   (requires ffmpeg) (enables dithering)       
@@ -139,6 +139,7 @@ Our goal is to improve our skills as developers and to make the world a better p
 - [requests](https://github.com/psf/requests) (Special Thanks! The Simplest Web Library!)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) (Special Thanks! The Best youtube-dl Fork!)
 - [tldextract](https://github.com/john-kurkowski/tldextract) (Special Thanks! Amazing Library!)
+- [art](https://github.com/sepandhaghighi/art) (Special Thanks! Awesome fonts!)
 - [cpython](https://github.com/python/cpython) (Special Thanks! Couldn't Have Done This Without You)
 - [FIG](https://github.com/dropletOrg/FIG) (Super Mega Special Special Thanks!!! One Of The Best [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) Projects Out There)
   

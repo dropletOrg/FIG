@@ -50,8 +50,9 @@ class Writer:
                 pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1, ncols=125)
             for i in range(self.frame_count):
                 frame = self.frames.get()
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                writer.append_data(frame)
+                if frame is not None:
+                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    writer.append_data(frame)
                 if self.verbose:
                     pbar.update(1)
         if self.verbose:
@@ -74,7 +75,8 @@ class Writer:
             pbar = tqdm.tqdm(total=self.frame_count, desc='Writing frames', position=1, ncols=125)
         for i in range(self.frame_count):
             frame = self.frames.get()
-            writer.write(frame)
+            if frame is not None:
+                writer.write(frame)
             if self.verbose:
                 pbar.update(1)
         if self.verbose:

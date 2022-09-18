@@ -19,7 +19,7 @@ import fig.utils
 @click.option('-dd', '--disable-dither', is_flag=True, default=False,
               help='Disable dither to increase quality but cause color banding (disables low-quality)')
 @click.option('-so', '--shit-optimize', default=False, is_flag=True,
-              help='Optimize the gif but change it to 256 colors (requires gifsicle)')
+              help='Optimize the gif but make it look bad (requires gifsicle)')
 @click.option('-f', '--ffmpeg', is_flag=True, default=False, show_default=True,
               help='Use ffmpeg for higher quality conversion (requires ffmpeg) (enables dithering)')
 @click.option('-t', '--text', default="", help='Text to add to the gif')
