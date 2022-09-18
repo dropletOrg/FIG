@@ -49,6 +49,7 @@ class Reader:
         if self.verbose:
             pbar = tqdm.tqdm(total=self.frame_count, desc='Reading and processing frames', position=0, ncols=125)
         i = -1
+        index = 0
         while cap.isOpened():
             frame = cap.read()[1]
             if frame is not None:
@@ -64,13 +65,21 @@ class Reader:
                     self.disable_dither
                 )
 
-                self.frames.put(frame)
-
                 if self.verbose:
                     pbar.update(1)
+
+                self.frames.put(frame)
+
+                index += 1
+
             else:
                 break
-        
+
+        while index < self.frame_count:
+            index += 1
+            if self.verbose:
+                pbar.update(1)
+            self.frames.put(None)
         if self.verbose:
             pbar.close()
             sys.stdout.write('\x1b[1A')
