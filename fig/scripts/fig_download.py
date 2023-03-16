@@ -9,7 +9,7 @@ import fig.utils
 @click.argument('search')
 @click.option('-s', '--service', help='Service to download from', type=click.Choice(['tenor', 'youtube', 'other']), default='tenor')
 @click.option('-o', '--output', help='Output filename', default='Output')
-@click.option('-ak', '--api-key', help='API key for Tenor', default="AIzaSyC3EOB__h0pNIWlPTh8MaunVK4McfErjfo")
+@click.option('-ak', '--api-key', help='API key for Tenor')
 @click.option('-c2v', '--convert2video', default=False, is_flag=True,
               help='Convert to a video (options: disable-dither, shit-optimize, ffmpeg are disabled)')
 @click.option('-w', '--width', help='Width of the gif (must be 16 or bigger)', type=int)
